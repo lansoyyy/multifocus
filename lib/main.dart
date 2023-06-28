@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:multifocus/screens/auth/landing_screen.dart';
 import 'package:multifocus/screens/home_screen.dart';
 import 'package:multifocus/utils/colors.dart';
 import 'package:multifocus/utils/routes.dart';
@@ -16,9 +17,10 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       color: primary,
       title: 'MultiFocus',
-      home: const HomeScreen(),
+      home: const LandingScreen(),
       routes: {
         Routes().homescreen: (context) => const HomeScreen(),
+        Routes().landingscreen: (context) => const LandingScreen(),
       },
     );
   }
