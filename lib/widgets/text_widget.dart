@@ -42,7 +42,7 @@ class TextBold extends StatelessWidget {
           fontSize: fontSize,
           color: color,
           fontFamily: 'QBold',
-          fontWeight: FontWeight.w800),
+          fontWeight: FontWeight.w600),
     );
   }
 }
