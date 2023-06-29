@@ -45,7 +45,7 @@ class LandingScreen extends StatelessWidget {
                               borderRadius: BorderRadius.circular(20),
                             ),
                             child: SizedBox(
-                              width: 275,
+                              width: 325,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisSize: MainAxisSize.min,
@@ -87,7 +87,7 @@ class LandingScreen extends StatelessWidget {
                                         ),
                                         Padding(
                                           padding:
-                                              const EdgeInsets.only(left: 15),
+                                              const EdgeInsets.only(left: 30),
                                           child: Align(
                                             alignment: Alignment.topLeft,
                                             child: TextBold(
@@ -102,7 +102,7 @@ class LandingScreen extends StatelessWidget {
                                         ),
                                         Padding(
                                           padding: const EdgeInsets.only(
-                                              left: 15, right: 15, bottom: 10),
+                                              left: 30, right: 30, bottom: 10),
                                           child: SizedBox(
                                             height: 200,
                                             child: SingleChildScrollView(
@@ -124,7 +124,7 @@ class LandingScreen extends StatelessWidget {
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.only(
-                                        left: 15, right: 15, bottom: 10),
+                                        left: 30, right: 30, bottom: 10),
                                     child: Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
