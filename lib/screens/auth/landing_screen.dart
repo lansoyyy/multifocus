@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:multifocus/utils/colors.dart';
 import 'package:multifocus/widgets/button_widget.dart';
+import 'package:multifocus/widgets/dialogs/about_us_dialog.dart';
 import 'package:multifocus/widgets/text_widget.dart';
+import 'package:multifocus/widgets/textfield_widget.dart';
 
 class LandingScreen extends StatelessWidget {
-  const LandingScreen({super.key});
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
 
+  LandingScreen({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,7 +31,175 @@ class LandingScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    showDialog(
+                        context: context,
+                        builder: (context) {
+                          return Dialog(
+                            backgroundColor: Colors.white,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            child: SizedBox(
+                              width: 325,
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        top: 10, right: 10),
+                                    child: Align(
+                                      alignment: Alignment.topRight,
+                                      child: IconButton(
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                          },
+                                          icon: const Icon(
+                                            Icons.cancel_outlined,
+                                            color: primaryGrey,
+                                          )),
+                                    ),
+                                  ),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: const [
+                                      Text(
+                                        'Are you ready to',
+                                        style: TextStyle(
+                                            fontSize: 24,
+                                            color: primaryGrey,
+                                            fontFamily: 'QBold',
+                                            fontWeight: FontWeight.w600),
+                                      ),
+                                      Text(
+                                        ' be productive?',
+                                        style: TextStyle(
+                                            fontSize: 24,
+                                            color: primaryGrey,
+                                            fontFamily: 'QBold',
+                                            fontWeight: FontWeight.w600),
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(
+                                    height: 30,
+                                  ),
+                                  TextFieldWidget(
+                                    radius: 100,
+                                    filled: true,
+                                    width: 250,
+                                    label: 'Email',
+                                    controller: emailController,
+                                  ),
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                  TextFieldWidget(
+                                    radius: 100,
+                                    filled: true,
+                                    width: 250,
+                                    label: 'Password',
+                                    controller: passwordController,
+                                  ),
+                                  const SizedBox(
+                                    height: 30,
+                                  ),
+                                  MaterialButton(
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(100)),
+                                    minWidth: 250,
+                                    height: 50,
+                                    color: primary,
+                                    onPressed: () {},
+                                    child: TextRegular(
+                                      text: 'Login',
+                                      fontSize: 14,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                  TextBold(
+                                    text: 'OR',
+                                    fontSize: 14,
+                                    color: Colors.black,
+                                  ),
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                  MaterialButton(
+                                    elevation: 3,
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(100)),
+                                    minWidth: 250,
+                                    height: 50,
+                                    color: Colors.white,
+                                    onPressed: () {},
+                                    child: SizedBox(
+                                      width: 225,
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Padding(
+                                            padding:
+                                                const EdgeInsets.only(left: 10),
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.all(5.0),
+                                              child: Image.asset(
+                                                'assets/images/micro.png',
+                                                height: 15,
+                                                width: 15,
+                                              ),
+                                            ),
+                                          ),
+                                          TextRegular(
+                                            text: 'Continue with Microsoft',
+                                            fontSize: 12,
+                                            color: Colors.black,
+                                          ),
+                                          const SizedBox(
+                                            width: 20,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: 20,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      TextRegular(
+                                        text: "HAVEN'T JOINED YET?",
+                                        fontSize: 12,
+                                        color: Colors.grey,
+                                      ),
+                                      TextButton(
+                                        onPressed: () {},
+                                        child: TextBold(
+                                          text: "JOIN NOW",
+                                          fontSize: 12,
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(
+                                    height: 30,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
+                        });
+                  },
                   child: TextRegular(
                     text: 'SIGN IN/UP',
                     fontSize: 18,
@@ -44,167 +216,7 @@ class LandingScreen extends StatelessWidget {
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(20),
                             ),
-                            child: SizedBox(
-                              width: 325,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Container(
-                                    decoration: const BoxDecoration(
-                                      borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(20),
-                                        topRight: Radius.circular(20),
-                                      ),
-                                      color: Colors.white,
-                                    ),
-                                    child: Column(
-                                      children: [
-                                        Align(
-                                          alignment: Alignment.topRight,
-                                          child: IconButton(
-                                              onPressed: () {
-                                                Navigator.pop(context);
-                                              },
-                                              icon: const Icon(
-                                                Icons.cancel_outlined,
-                                                color: primaryGrey,
-                                              )),
-                                        ),
-                                        const Center(
-                                            child: Text(
-                                          'ABOUT US',
-                                          style: TextStyle(
-                                              decoration:
-                                                  TextDecoration.underline,
-                                              fontSize: 15,
-                                              color: primaryGrey,
-                                              fontFamily: 'QBold',
-                                              fontWeight: FontWeight.w600),
-                                        )),
-                                        const SizedBox(
-                                          height: 30,
-                                        ),
-                                        Padding(
-                                          padding:
-                                              const EdgeInsets.only(left: 30),
-                                          child: Align(
-                                            alignment: Alignment.topLeft,
-                                            child: TextBold(
-                                              text: 'Hello,',
-                                              fontSize: 28,
-                                              color: secondary,
-                                            ),
-                                          ),
-                                        ),
-                                        const SizedBox(
-                                          height: 20,
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                              left: 30, right: 30, bottom: 10),
-                                          child: SizedBox(
-                                            height: 200,
-                                            child: SingleChildScrollView(
-                                              child: Column(
-                                                children: [
-                                                  TextRegular(
-                                                    text:
-                                                        'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.',
-                                                    fontSize: 12,
-                                                    color: primaryGrey,
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 30, right: 30, bottom: 10),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        const SizedBox(
-                                          height: 20,
-                                        ),
-                                        TextBold(
-                                            text: 'Contacts:',
-                                            fontSize: 14,
-                                            color: Colors.white),
-                                        const SizedBox(
-                                          height: 10,
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          children: [
-                                            Container(
-                                              decoration: const BoxDecoration(
-                                                  color: Colors.white,
-                                                  shape: BoxShape.circle),
-                                              child: const Padding(
-                                                padding: EdgeInsets.all(5.0),
-                                                child: Icon(
-                                                  Icons.call,
-                                                  color: Colors.grey,
-                                                  size: 14,
-                                                ),
-                                              ),
-                                            ),
-                                            const SizedBox(
-                                              width: 10,
-                                            ),
-                                            TextRegular(
-                                              text: '+63XX-XXX-XXXX',
-                                              fontSize: 12,
-                                              color: Colors.white,
-                                            ),
-                                          ],
-                                        ),
-                                        const SizedBox(
-                                          height: 10,
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          children: [
-                                            Container(
-                                              decoration: const BoxDecoration(
-                                                  color: Colors.white,
-                                                  shape: BoxShape.circle),
-                                              child: const Padding(
-                                                padding: EdgeInsets.all(5.0),
-                                                child: Icon(
-                                                  Icons.email,
-                                                  color: Colors.grey,
-                                                  size: 14,
-                                                ),
-                                              ),
-                                            ),
-                                            const SizedBox(
-                                              width: 10,
-                                            ),
-                                            TextRegular(
-                                              text: 'charlie@mma.com',
-                                              fontSize: 12,
-                                              color: Colors.white,
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    height: 20,
-                                  ),
-                                ],
-                              ),
-                            ),
+                            child: const AboutusDialog(),
                           );
                         });
                   },

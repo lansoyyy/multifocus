@@ -17,10 +17,10 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       color: primary,
       title: 'MultiFocus',
-      home: const LandingScreen(),
+      home: LandingScreen(),
       routes: {
         Routes().homescreen: (context) => const HomeScreen(),
-        Routes().landingscreen: (context) => const LandingScreen(),
+        Routes().landingscreen: (context) => LandingScreen(),
       },
     );
   }
