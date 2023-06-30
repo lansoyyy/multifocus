@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:multifocus/utils/colors.dart';
+import 'package:multifocus/utils/routes.dart';
 import 'package:multifocus/widgets/button_widget.dart';
 import 'package:multifocus/widgets/dialogs/about_us_dialog.dart';
 import 'package:multifocus/widgets/text_widget.dart';
@@ -176,7 +177,10 @@ class LandingScreen extends StatelessWidget {
                     minWidth: 250,
                     height: 50,
                     color: primary,
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pushReplacementNamed(
+                          context, Routes().homescreen);
+                    },
                     child: TextRegular(
                       text: 'Login',
                       fontSize: 14,

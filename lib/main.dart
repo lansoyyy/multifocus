@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
       title: 'MultiFocus',
       home: LandingScreen(),
       routes: {
-        Routes().homescreen: (context) => const HomeScreen(),
+        Routes().homescreen: (context) => HomeScreen(),
         Routes().landingscreen: (context) => LandingScreen(),
       },
     );
