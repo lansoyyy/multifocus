@@ -86,7 +86,10 @@ class LandingScreen extends StatelessWidget {
                   radius: 100,
                   color: Colors.white,
                   label: 'ENTER WORKSPACE',
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pushReplacementNamed(
+                        context, Routes().homescreen);
+                  },
                 ),
               ],
             ),

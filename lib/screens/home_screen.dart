@@ -1,3 +1,4 @@
+import 'package:calendar_view/calendar_view.dart';
 import 'package:flutter/material.dart';
 import 'package:multifocus/widgets/text_widget.dart';
 
@@ -9,7 +10,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  bool calendarClicked = false;
+  bool calendarClicked = true;
   bool todolistClicked = false;
   bool timerClicked = false;
   bool musicClicked = false;
@@ -139,14 +140,70 @@ class _HomeScreenState extends State<HomeScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Container(
-                    height: 500,
-                    width: 400,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                  ),
+                  calendarClicked
+                      ? Container(
+                          height: 500,
+                          width: 400,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: Column(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(right: 10),
+                                child: Align(
+                                  alignment: Alignment.topRight,
+                                  child: IconButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        calendarClicked = !calendarClicked;
+                                      });
+                                    },
+                                    icon: const Icon(
+                                      Icons.remove,
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Center(
+                                child: TextBold(
+                                  text: 'Connect your calendar:',
+                                  fontSize: 14,
+                                  color: Colors.grey,
+                                ),
+                              ),
+                              Center(
+                                child: TextBold(
+                                  text: 'Icons here',
+                                  fontSize: 14,
+                                  color: Colors.grey,
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              SizedBox(
+                                height: 375,
+                                child: WeekView(
+                                  initialDay: DateTime.now(),
+                                  headerStyle: const HeaderStyle(
+                                      headerTextStyle: TextStyle(
+                                        fontFamily: 'QRegular',
+                                        color: Colors.grey,
+                                        fontSize: 14,
+                                      ),
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                      )),
+                                  width: 375,
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
+                      : const SizedBox(),
                   const SizedBox(
                     width: 30,
                   ),
@@ -311,7 +368,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   padding: const EdgeInsets.only(left: 40, right: 20),
                   child: Row(
                     children: [
-                      TextBold(text: '5:00', fontSize: 48, color: Colors.grey),
+                      TextBold(text: '5:00', fontSize: 42, color: Colors.grey),
                       const Expanded(
                         child: SizedBox(),
                       ),

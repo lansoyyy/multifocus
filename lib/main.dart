@@ -1,3 +1,4 @@
+import 'package:calendar_view/calendar_view.dart';
 import 'package:flutter/material.dart';
 import 'package:multifocus/screens/auth/landing_screen.dart';
 import 'package:multifocus/screens/home_screen.dart';
@@ -14,14 +15,17 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      color: primary,
-      title: 'MultiFocus',
-      home: LandingScreen(),
-      routes: {
-        Routes().homescreen: (context) => HomeScreen(),
-        Routes().landingscreen: (context) => LandingScreen(),
-      },
+    return CalendarControllerProvider(
+      controller: EventController(),
+      child: MaterialApp(
+        color: primary,
+        title: 'MultiFocus',
+        home: LandingScreen(),
+        routes: {
+          Routes().homescreen: (context) => const HomeScreen(),
+          Routes().landingscreen: (context) => LandingScreen(),
+        },
+      ),
     );
   }
 }

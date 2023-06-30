@@ -35,6 +35,7 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
+  calendar_view:
 
 dev_dependencies:
   flutter_test:
@@ -77,10 +78,10 @@ flutter:
   fonts:
     - family: QRegular
       fonts:
-        - asset: assets/fonts/Inter-Regular.ttf
+        - asset: assets/fonts/DMSans-Regular.ttf
     - family: QBold
       fonts:
-        - asset: assets/fonts/Inter-Bold.ttf
+        - asset: assets/fonts/DMSans-Bold.ttf
   #   - family: Trajan Pro
   #     fonts:
   #       - asset: fonts/TrajanPro.ttf
