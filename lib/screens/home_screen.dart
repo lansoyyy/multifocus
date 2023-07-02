@@ -14,6 +14,7 @@ class _HomeScreenState extends State<HomeScreen> {
   bool todolistClicked = false;
   bool timerClicked = false;
   bool musicClicked = false;
+  final urlController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -133,7 +134,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             const SizedBox(
-              height: 20,
+              height: 50,
             ),
             Center(
               child: Row(
@@ -205,13 +206,17 @@ class _HomeScreenState extends State<HomeScreen> {
                         )
                       : const SizedBox(),
                   const SizedBox(
-                    width: 30,
+                    width: 50,
                   ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       timer(),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      music(),
                       const SizedBox(
                         height: 20,
                       ),
@@ -241,32 +246,41 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             child: Column(
               children: [
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(20, 5, 20, 5),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      TextRegular(
-                        text: 'To-Do',
-                        fontSize: 14,
-                        color: Colors.grey,
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            todolistClicked = !todolistClicked;
-                          });
-                        },
-                        child: const Icon(
-                          Icons.remove,
-                          color: Colors.grey,
+                Container(
+                  height: 30,
+                  decoration: const BoxDecoration(
+                    color: Colors.grey,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(20),
+                      topRight: Radius.circular(20),
+                    ),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(20, 5, 20, 5),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        TextRegular(
+                          text: 'To-Do',
+                          fontSize: 14,
+                          color: Colors.white,
                         ),
-                      ),
-                    ],
+                        GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              todolistClicked = !todolistClicked;
+                            });
+                          },
+                          child: const Icon(
+                            Icons.remove,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-                const Divider(),
                 Expanded(
                   child: SizedBox(
                     child: ListView.builder(
@@ -424,6 +438,154 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ],
                 ),
+              ],
+            ),
+          )
+        : const SizedBox();
+  }
+
+  Widget music() {
+    return musicClicked
+        ? Container(
+            height: 170,
+            width: 300,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: Column(
+              children: [
+                Container(
+                  height: 30,
+                  decoration: const BoxDecoration(
+                    color: Colors.grey,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(20),
+                      topRight: Radius.circular(20),
+                    ),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(20, 5, 20, 5),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        TextRegular(
+                          text: 'Music',
+                          fontSize: 14,
+                          color: Colors.white,
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              musicClicked = !musicClicked;
+                            });
+                          },
+                          child: const Icon(
+                            Icons.remove,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 20, right: 20),
+                  child: Row(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Container(
+                            height: 65,
+                            width: 65,
+                            decoration: BoxDecoration(
+                              color: Colors.grey,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              TextBold(
+                                text: 'Title here',
+                                fontSize: 16,
+                                color: Colors.black,
+                              ),
+                              TextBold(
+                                text: 'Album here',
+                                fontSize: 13,
+                                color: Colors.grey,
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                      const Expanded(
+                        child: SizedBox(),
+                      ),
+                      const Icon(
+                        Icons.skip_previous_rounded,
+                        color: Colors.grey,
+                      ),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      const Icon(
+                        Icons.play_circle_outlined,
+                        color: Colors.grey,
+                        size: 32,
+                      ),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      const Icon(
+                        Icons.skip_next_rounded,
+                        color: Colors.grey,
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(
+                  height: 5,
+                ),
+                const Divider(
+                  color: Colors.grey,
+                  thickness: 0.5,
+                ),
+                const SizedBox(
+                  height: 5,
+                ),
+                Container(
+                  height: 30,
+                  width: 250,
+                  decoration:
+                      BoxDecoration(borderRadius: BorderRadius.circular(100)),
+                  child: TextFormField(
+                    style: const TextStyle(
+                        color: Colors.grey,
+                        fontFamily: 'QRegular',
+                        fontSize: 12),
+                    decoration: InputDecoration(
+                      enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(100)),
+                      focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(100)),
+                      fillColor: Colors.grey[200],
+                      hintText: 'Enter Spotify, YouTube, or Apple Music URL',
+                      border: InputBorder.none,
+                    ),
+                    controller: urlController,
+                  ),
+                )
               ],
             ),
           )

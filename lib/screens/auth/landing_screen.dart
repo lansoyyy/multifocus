@@ -9,6 +9,7 @@ import 'package:multifocus/widgets/textfield_widget.dart';
 class LandingScreen extends StatelessWidget {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  final nameController = TextEditingController();
 
   LandingScreen({super.key});
   @override
@@ -132,8 +133,20 @@ class LandingScreen extends StatelessWidget {
                   ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
-                    children: const [
-                      Text(
+                    children: [
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      Center(
+                        child: Image.asset(
+                          'assets/images/MultiFocus Logomark@4x.png',
+                          height: 25,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      const Text(
                         'Are you ready to',
                         style: TextStyle(
                             fontSize: 24,
@@ -141,7 +154,7 @@ class LandingScreen extends StatelessWidget {
                             fontFamily: 'QBold',
                             fontWeight: FontWeight.w600),
                       ),
-                      Text(
+                      const Text(
                         ' be productive?',
                         style: TextStyle(
                             fontSize: 24,
@@ -158,13 +171,14 @@ class LandingScreen extends StatelessWidget {
                     radius: 100,
                     filled: true,
                     width: 250,
-                    label: 'Email',
+                    label: 'Outlook Email',
                     controller: emailController,
                   ),
                   const SizedBox(
                     height: 10,
                   ),
                   TextFieldWidget(
+                    isObscure: true,
                     radius: 100,
                     filled: true,
                     width: 250,
@@ -193,74 +207,172 @@ class LandingScreen extends StatelessWidget {
                   const SizedBox(
                     height: 10,
                   ),
-                  TextBold(
-                    text: 'OR',
-                    fontSize: 14,
-                    color: Colors.black,
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                      signupPopupDialog(context);
+                    },
+                    child: TextBold(
+                      text: 'Register New Account',
+                      fontSize: 12,
+                      color: Colors.black,
+                    ),
                   ),
                   const SizedBox(
                     height: 10,
                   ),
-                  MaterialButton(
-                    elevation: 3,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(100)),
-                    minWidth: 250,
-                    height: 50,
-                    color: Colors.white,
-                    onPressed: () {},
-                    child: SizedBox(
-                      width: 225,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(left: 10),
-                            child: Padding(
-                              padding: const EdgeInsets.all(5.0),
-                              child: Image.asset(
-                                'assets/images/micro.png',
-                                height: 15,
-                                width: 15,
-                              ),
-                            ),
-                          ),
-                          TextRegular(
-                            text: 'Continue with Microsoft',
-                            fontSize: 12,
-                            color: Colors.black,
-                          ),
-                          const SizedBox(
-                            width: 20,
-                          ),
-                        ],
+                  Container(
+                    width: double.infinity,
+                    height: 30,
+                    decoration: const BoxDecoration(
+                      color: Colors.grey,
+                      borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(20),
+                        bottomRight: Radius.circular(20),
                       ),
                     ),
                   ),
-                  const SizedBox(
-                    height: 20,
+                ],
+              ),
+            ),
+          );
+        });
+  }
+
+  signupPopupDialog(context) {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return Dialog(
+            backgroundColor: Colors.white,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: SizedBox(
+              width: 325,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 10, right: 10),
+                    child: Align(
+                      alignment: Alignment.topRight,
+                      child: IconButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          icon: const Icon(
+                            Icons.cancel_outlined,
+                            color: primaryGrey,
+                          )),
+                    ),
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      TextRegular(
-                        text: "HAVEN'T JOINED YET?",
-                        fontSize: 12,
-                        color: Colors.grey,
+                      const SizedBox(
+                        height: 5,
                       ),
-                      TextButton(
-                        onPressed: () {},
-                        child: TextBold(
-                          text: "JOIN NOW",
-                          fontSize: 12,
-                          color: Colors.black,
+                      Center(
+                        child: Image.asset(
+                          'assets/images/MultiFocus Logomark@4x.png',
+                          height: 25,
                         ),
+                      ),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      const Text(
+                        'REGISTER NEW',
+                        style: TextStyle(
+                            fontSize: 24,
+                            color: primaryGrey,
+                            fontFamily: 'QBold',
+                            fontWeight: FontWeight.w600),
+                      ),
+                      const Text(
+                        'ACCOUNT',
+                        style: TextStyle(
+                            fontSize: 24,
+                            color: primaryGrey,
+                            fontFamily: 'QBold',
+                            fontWeight: FontWeight.w600),
                       ),
                     ],
                   ),
                   const SizedBox(
                     height: 30,
                   ),
+                  TextFieldWidget(
+                    radius: 100,
+                    filled: true,
+                    width: 250,
+                    label: 'Outlook Email',
+                    controller: emailController,
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  TextFieldWidget(
+                    radius: 100,
+                    filled: true,
+                    width: 250,
+                    label: 'Name',
+                    controller: nameController,
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  TextFieldWidget(
+                    isObscure: true,
+                    radius: 100,
+                    filled: true,
+                    width: 250,
+                    label: 'Password',
+                    controller: passwordController,
+                  ),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  MaterialButton(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(100)),
+                    minWidth: 250,
+                    height: 50,
+                    color: primary,
+                    onPressed: () {
+                      Navigator.pushReplacementNamed(
+                          context, Routes().homescreen);
+                    },
+                    child: TextRegular(
+                      text: 'Signup',
+                      fontSize: 14,
+                      color: Colors.white,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Container(
+                      width: double.infinity,
+                      height: 30,
+                      decoration: const BoxDecoration(
+                        color: Colors.grey,
+                        borderRadius: BorderRadius.only(
+                          bottomLeft: Radius.circular(20),
+                          bottomRight: Radius.circular(20),
+                        ),
+                      ),
+                      child: TextButton(
+                        onPressed: () {
+                          Navigator.pushReplacementNamed(
+                              context, Routes().homescreen);
+                        },
+                        child: TextRegular(
+                            text: 'ENTER WORKSPACE',
+                            fontSize: 12,
+                            color: Colors.white),
+                      )),
                 ],
               ),
             ),
