@@ -16,6 +16,8 @@ class _HomeScreenState extends State<HomeScreen> {
   bool musicClicked = false;
   final urlController = TextEditingController();
 
+  bool isExpanded = true;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,7 +40,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 alignment: Alignment.topLeft,
                 child: Container(
                   height: 45,
-                  width: 450,
+                  width: isExpanded ? 450 : 45,
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(100),
@@ -46,88 +48,119 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      TextButton(
-                          onPressed: () {
+                      Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: GestureDetector(
+                          onTap: () {
                             setState(() {
-                              calendarClicked = !calendarClicked;
+                              isExpanded = !isExpanded;
                             });
                           },
-                          child: Text(
-                            'Calendar',
-                            style: TextStyle(
-                              decoration: calendarClicked
-                                  ? TextDecoration.underline
-                                  : null,
-                              fontSize: 14,
-                              color:
-                                  calendarClicked ? Colors.black : Colors.grey,
-                              fontFamily: 'QRegular',
-                            ),
-                          )),
-                      const Padding(
-                        padding: EdgeInsets.only(top: 10, bottom: 10),
-                        child: VerticalDivider(),
+                          child: Image.asset(
+                            'assets/images/MultiFocus_Black@4x.png',
+                          ),
+                        ),
                       ),
-                      TextButton(
-                          onPressed: () {
-                            setState(() {
-                              todolistClicked = !todolistClicked;
-                            });
-                          },
-                          child: Text(
-                            'To-Do List',
-                            style: TextStyle(
-                              decoration: todolistClicked
-                                  ? TextDecoration.underline
-                                  : null,
-                              fontSize: 14,
-                              color:
-                                  todolistClicked ? Colors.black : Colors.grey,
-                              fontFamily: 'QRegular',
-                            ),
-                          )),
-                      const Padding(
-                        padding: EdgeInsets.only(top: 10, bottom: 10),
-                        child: VerticalDivider(),
-                      ),
-                      TextButton(
-                          onPressed: () {
-                            setState(() {
-                              timerClicked = !timerClicked;
-                            });
-                          },
-                          child: Text(
-                            'Pomodoro Timer',
-                            style: TextStyle(
-                              decoration: timerClicked
-                                  ? TextDecoration.underline
-                                  : null,
-                              fontSize: 14,
-                              color: timerClicked ? Colors.black : Colors.grey,
-                              fontFamily: 'QRegular',
-                            ),
-                          )),
-                      const Padding(
-                        padding: EdgeInsets.only(top: 10, bottom: 10),
-                        child: VerticalDivider(),
-                      ),
-                      TextButton(
-                          onPressed: () {
-                            setState(() {
-                              musicClicked = !musicClicked;
-                            });
-                          },
-                          child: Text(
-                            'Music',
-                            style: TextStyle(
-                              decoration: musicClicked
-                                  ? TextDecoration.underline
-                                  : null,
-                              fontSize: 14,
-                              color: musicClicked ? Colors.black : Colors.grey,
-                              fontFamily: 'QRegular',
-                            ),
-                          )),
+                      isExpanded
+                          ? TextButton(
+                              onPressed: () {
+                                setState(() {
+                                  calendarClicked = !calendarClicked;
+                                });
+                              },
+                              child: Text(
+                                'Calendar',
+                                style: TextStyle(
+                                  decoration: calendarClicked
+                                      ? TextDecoration.underline
+                                      : null,
+                                  fontSize: 14,
+                                  color: calendarClicked
+                                      ? Colors.black
+                                      : Colors.grey,
+                                  fontFamily: 'QRegular',
+                                ),
+                              ))
+                          : const SizedBox(),
+                      isExpanded
+                          ? const Padding(
+                              padding: EdgeInsets.only(top: 10, bottom: 10),
+                              child: VerticalDivider(),
+                            )
+                          : const SizedBox(),
+                      isExpanded
+                          ? TextButton(
+                              onPressed: () {
+                                setState(() {
+                                  todolistClicked = !todolistClicked;
+                                });
+                              },
+                              child: Text(
+                                'To-Do List',
+                                style: TextStyle(
+                                  decoration: todolistClicked
+                                      ? TextDecoration.underline
+                                      : null,
+                                  fontSize: 14,
+                                  color: todolistClicked
+                                      ? Colors.black
+                                      : Colors.grey,
+                                  fontFamily: 'QRegular',
+                                ),
+                              ))
+                          : const SizedBox(),
+                      isExpanded
+                          ? const Padding(
+                              padding: EdgeInsets.only(top: 10, bottom: 10),
+                              child: VerticalDivider(),
+                            )
+                          : const SizedBox(),
+                      isExpanded
+                          ? TextButton(
+                              onPressed: () {
+                                setState(() {
+                                  timerClicked = !timerClicked;
+                                });
+                              },
+                              child: Text(
+                                'Pomodoro Timer',
+                                style: TextStyle(
+                                  decoration: timerClicked
+                                      ? TextDecoration.underline
+                                      : null,
+                                  fontSize: 14,
+                                  color:
+                                      timerClicked ? Colors.black : Colors.grey,
+                                  fontFamily: 'QRegular',
+                                ),
+                              ))
+                          : const SizedBox(),
+                      isExpanded
+                          ? const Padding(
+                              padding: EdgeInsets.only(top: 10, bottom: 10),
+                              child: VerticalDivider(),
+                            )
+                          : const SizedBox(),
+                      isExpanded
+                          ? TextButton(
+                              onPressed: () {
+                                setState(() {
+                                  musicClicked = !musicClicked;
+                                });
+                              },
+                              child: Text(
+                                'Music',
+                                style: TextStyle(
+                                  decoration: musicClicked
+                                      ? TextDecoration.underline
+                                      : null,
+                                  fontSize: 14,
+                                  color:
+                                      musicClicked ? Colors.black : Colors.grey,
+                                  fontFamily: 'QRegular',
+                                ),
+                              ))
+                          : const SizedBox(),
                     ],
                   ),
                 ),
