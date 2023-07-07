@@ -214,7 +214,10 @@ class LandingScreen extends StatelessWidget {
                     minWidth: 250,
                     height: 50,
                     color: Colors.white,
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pushReplacementNamed(
+                          context, Routes().homescreen);
+                    },
                     child: SizedBox(
                       width: 225,
                       child: Row(

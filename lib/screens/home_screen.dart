@@ -2,6 +2,8 @@ import 'package:calendar_view/calendar_view.dart';
 import 'package:flutter/material.dart';
 import 'package:multifocus/widgets/text_widget.dart';
 
+import '../utils/routes.dart';
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -20,16 +22,25 @@ class _HomeScreenState extends State<HomeScreen> {
 
   bool isExpanded = true;
 
+  List backgroundImages = [
+    'assets/images/1.jpg',
+    'assets/images/2.jpg',
+    'assets/images/3.jpg',
+    'assets/images/4.jpg',
+  ];
+
+  String backgroundImage = 'assets/images/1.jpg';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
         height: double.infinity,
         width: double.infinity,
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           image: DecorationImage(
               image: AssetImage(
-                'assets/images/3.jpg',
+                backgroundImage,
               ),
               fit: BoxFit.cover),
         ),
@@ -279,6 +290,10 @@ class _HomeScreenState extends State<HomeScreen> {
                       todoList(),
                     ],
                   ),
+                  const SizedBox(
+                    width: 50,
+                  ),
+                  settingsDialog(),
                 ],
               ),
             ),
@@ -642,6 +657,206 @@ class _HomeScreenState extends State<HomeScreen> {
                     controller: urlController,
                   ),
                 )
+              ],
+            ),
+          )
+        : const SizedBox();
+  }
+
+  Widget settingsDialog() {
+    return settingsClicked
+        ? Container(
+            height: 350,
+            width: 400,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: Column(
+              children: [
+                Container(
+                  height: 30,
+                  decoration: const BoxDecoration(
+                    color: Colors.grey,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(20),
+                      topRight: Radius.circular(20),
+                    ),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(20, 5, 20, 5),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        TextRegular(
+                          text: 'Settings',
+                          fontSize: 14,
+                          color: Colors.white,
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              settingsClicked = !settingsClicked;
+                            });
+                          },
+                          child: const Icon(
+                            Icons.remove,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
+                  child: Align(
+                    alignment: Alignment.topLeft,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        TextBold(
+                          text: 'Hey, @Name',
+                          fontSize: 18,
+                          color: Colors.black,
+                        ),
+                        TextRegular(
+                          text: 'Start customizing your workspace page!',
+                          fontSize: 14,
+                          color: Colors.grey,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.grey[200],
+                      ),
+                      child: GridView.builder(
+                        itemCount: backgroundImages.length,
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 2),
+                        itemBuilder: (context, index) {
+                          return Padding(
+                            padding: const EdgeInsets.all(5.0),
+                            child: GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  backgroundImage = backgroundImages[index];
+                                });
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  image: DecorationImage(
+                                      image:
+                                          AssetImage(backgroundImages[index]),
+                                      fit: BoxFit.cover),
+                                ),
+                                height: 50,
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 5,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(100),
+                        border: Border.all(color: Colors.grey),
+                      ),
+                      child: TextButton(
+                        onPressed: () {
+                          Navigator.pushReplacementNamed(
+                              context, Routes().landingscreen);
+                        },
+                        child: TextRegular(
+                          text: 'Signout',
+                          fontSize: 14,
+                          color: Colors.grey,
+                        ),
+                      ),
+                    ),
+                    Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(100),
+                        border: Border.all(
+                          color: Colors.red,
+                        ),
+                      ),
+                      child: TextButton(
+                        onPressed: () {
+                          showDialog(
+                              context: context,
+                              builder: (context) => AlertDialog(
+                                    title: const SizedBox(
+                                      width: 150,
+                                      child: Text(
+                                        'Are you sure you want to delete your account?',
+                                        style: TextStyle(
+                                            color: Colors.red,
+                                            fontFamily: 'QBold',
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ),
+                                    content: const Text(
+                                      'This action cannot be undone',
+                                      style: TextStyle(fontFamily: 'QRegular'),
+                                    ),
+                                    actions: <Widget>[
+                                      MaterialButton(
+                                        onPressed: () =>
+                                            Navigator.of(context).pop(true),
+                                        child: const Text(
+                                          'Close',
+                                          style: TextStyle(
+                                              fontFamily: 'QRegular',
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      ),
+                                      MaterialButton(
+                                        onPressed: () async {
+                                          Navigator.of(context)
+                                              .pushReplacementNamed(
+                                                  Routes().landingscreen);
+                                        },
+                                        child: const Text(
+                                          'Continue',
+                                          style: TextStyle(
+                                              fontFamily: 'QRegular',
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.red),
+                                        ),
+                                      ),
+                                    ],
+                                  ));
+                        },
+                        child: TextRegular(
+                          text: 'Delete Account',
+                          fontSize: 14,
+                          color: Colors.red,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
               ],
             ),
           )
