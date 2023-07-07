@@ -205,6 +205,45 @@ class LandingScreen extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(
+                    height: 20,
+                  ),
+                  MaterialButton(
+                    elevation: 3,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(100)),
+                    minWidth: 250,
+                    height: 50,
+                    color: Colors.white,
+                    onPressed: () {},
+                    child: SizedBox(
+                      width: 225,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(left: 10),
+                            child: Padding(
+                              padding: const EdgeInsets.all(5.0),
+                              child: Image.asset(
+                                'assets/images/micro.png',
+                                height: 15,
+                                width: 15,
+                              ),
+                            ),
+                          ),
+                          TextRegular(
+                            text: 'Continue with Microsoft',
+                            fontSize: 12,
+                            color: Colors.black,
+                          ),
+                          const SizedBox(
+                            width: 20,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
                     height: 10,
                   ),
                   TextButton(
