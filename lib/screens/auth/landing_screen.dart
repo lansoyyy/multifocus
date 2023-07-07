@@ -317,7 +317,7 @@ class LandingScreen extends StatelessWidget {
                     radius: 100,
                     filled: true,
                     width: 250,
-                    label: 'Name',
+                    label: 'Username',
                     controller: nameController,
                   ),
                   const SizedBox(
@@ -365,13 +365,11 @@ class LandingScreen extends StatelessWidget {
                       ),
                       child: TextButton(
                         onPressed: () {
-                          Navigator.pushReplacementNamed(
-                              context, Routes().homescreen);
+                          Navigator.pop(context);
+                          signinPopupDialog(context);
                         },
                         child: TextRegular(
-                            text: 'ENTER WORKSPACE',
-                            fontSize: 12,
-                            color: Colors.white),
+                            text: 'Login', fontSize: 14, color: Colors.white),
                       )),
                 ],
               ),

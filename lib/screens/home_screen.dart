@@ -14,6 +14,8 @@ class _HomeScreenState extends State<HomeScreen> {
   bool todolistClicked = false;
   bool timerClicked = false;
   bool musicClicked = false;
+
+  bool settingsClicked = false;
   final urlController = TextEditingController();
 
   bool isExpanded = true;
@@ -40,7 +42,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 alignment: Alignment.topLeft,
                 child: Container(
                   height: 45,
-                  width: isExpanded ? 450 : 45,
+                  width: isExpanded ? 500 : 45,
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(100),
@@ -160,6 +162,27 @@ class _HomeScreenState extends State<HomeScreen> {
                                   fontFamily: 'QRegular',
                                 ),
                               ))
+                          : const SizedBox(),
+                      isExpanded
+                          ? const Padding(
+                              padding: EdgeInsets.only(top: 10, bottom: 10),
+                              child: VerticalDivider(),
+                            )
+                          : const SizedBox(),
+                      isExpanded
+                          ? IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  settingsClicked = !settingsClicked;
+                                });
+                              },
+                              icon: Icon(
+                                Icons.settings,
+                                color: settingsClicked
+                                    ? Colors.black
+                                    : Colors.grey,
+                              ),
+                            )
                           : const SizedBox(),
                     ],
                   ),
