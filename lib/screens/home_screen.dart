@@ -16,6 +16,7 @@ class _HomeScreenState extends State<HomeScreen> {
   bool todolistClicked = false;
   bool timerClicked = false;
   bool musicClicked = false;
+  bool notesClicked = false;
 
   bool settingsClicked = false;
   final urlController = TextEditingController();
@@ -53,7 +54,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 alignment: Alignment.topLeft,
                 child: Container(
                   height: 45,
-                  width: isExpanded ? 500 : 45,
+                  width: isExpanded ? 620 : 45,
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(100),
@@ -147,6 +148,33 @@ class _HomeScreenState extends State<HomeScreen> {
                                   fontFamily: 'QRegular',
                                 ),
                               ))
+                          : const SizedBox(),
+                      isExpanded
+                          ? const Padding(
+                              padding: EdgeInsets.only(top: 10, bottom: 10),
+                              child: VerticalDivider(),
+                            )
+                          : const SizedBox(),
+                      isExpanded
+                          ? TextButton(
+                              onPressed: () {
+                                setState(() {
+                                  notesClicked = !notesClicked;
+                                });
+                              },
+                              child: Text(
+                                'Sticky Notes',
+                                style: TextStyle(
+                                  decoration: notesClicked
+                                      ? TextDecoration.underline
+                                      : null,
+                                  fontSize: 14,
+                                  color:
+                                      notesClicked ? Colors.black : Colors.grey,
+                                  fontFamily: 'QRegular',
+                                ),
+                              ),
+                            )
                           : const SizedBox(),
                       isExpanded
                           ? const Padding(
@@ -293,7 +321,16 @@ class _HomeScreenState extends State<HomeScreen> {
                   const SizedBox(
                     width: 50,
                   ),
-                  settingsDialog(),
+                  Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        settingsDialog(),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        stickyNotes(),
+                      ]),
                 ],
               ),
             ),
@@ -861,5 +898,69 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           )
         : const SizedBox();
+  }
+
+  Widget stickyNotes() {
+    return notesClicked
+        ? Container(
+            height: 200,
+            width: 400,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: Column(
+              children: [
+                Container(
+                  height: 30,
+                  decoration: const BoxDecoration(
+                    color: Colors.grey,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(20),
+                      topRight: Radius.circular(20),
+                    ),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(20, 5, 20, 5),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        TextRegular(
+                          text: 'Sticky Notes',
+                          fontSize: 14,
+                          color: Colors.white,
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              notesClicked = !notesClicked;
+                            });
+                          },
+                          child: const Icon(
+                            Icons.remove,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+                  child: TextFormField(
+                    minLines: 5,
+                    maxLines: 5,
+                    decoration: const InputDecoration(
+                      border: InputBorder.none,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          )
+        : const SizedBox(
+            width: 300,
+          );
   }
 }
