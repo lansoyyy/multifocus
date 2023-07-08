@@ -75,7 +75,7 @@ class AboutusDialog extends StatelessWidget {
                         children: [
                           TextRegular(
                             text:
-                                'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.',
+                                'MultiFocus is a productivity web application designed to help student freelancers balance their school and work commitments. Our team is comprised of fourth-year Multimedia Arts students at Mapúa Malayan Colleges Mindanao (MMCM) who specialize in graphic arts and design, and photography. As freelancers themselves, they understand the challenges of the industry and have crafted MultiFocus to meet those needs. Were passionate about helping you succeed in your creative pursuits, and we hope that MultiFocus will be a valuable tool for you.',
                             fontSize: 12,
                             color: primaryGrey,
                           ),
