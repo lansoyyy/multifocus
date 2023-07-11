@@ -1,8 +1,13 @@
+import 'dart:async';
+
 import 'package:calendar_view/calendar_view.dart';
 import 'package:flutter/material.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:multifocus/widgets/text_widget.dart';
 
 import '../utils/routes.dart';
+
+final box = GetStorage();
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -31,6 +36,17 @@ class _HomeScreenState extends State<HomeScreen> {
   ];
 
   String backgroundImage = 'assets/images/1.jpg';
+
+  final todoController = TextEditingController();
+  List todos = [];
+
+  bool isPlaying = false;
+  bool isPomodoro = true;
+  bool isShortBreak = false;
+  bool isLongBreak = false;
+  int durationMinutes = 30; // Default duration for Pomodoro (30 minutes)
+  Timer? countdownTimer;
+  int countdownValue = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -392,16 +408,31 @@ class _HomeScreenState extends State<HomeScreen> {
                 Expanded(
                   child: SizedBox(
                     child: ListView.builder(
+                      itemCount: todos.length,
                       itemBuilder: (context, index) {
                         return ListTile(
-                          leading: const Icon(
-                            Icons.check_box_outline_blank_rounded,
-                            color: Colors.grey,
+                          leading: GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                todos[index]['isCompleted'] =
+                                    !todos[index]['isCompleted'];
+                              });
+                            },
+                            child: Icon(
+                              todos[index]['isCompleted']
+                                  ? Icons.check_box
+                                  : Icons.check_box_outline_blank_rounded,
+                              color: todos[index]['isCompleted']
+                                  ? Colors.blue
+                                  : Colors.grey,
+                            ),
                           ),
                           title: TextRegular(
-                            text: 'Sample Task',
+                            text: todos[index]['title'],
                             fontSize: 18,
-                            color: Colors.grey,
+                            color: todos[index]['isCompleted']
+                                ? Colors.blue
+                                : Colors.grey,
                           ),
                         );
                       },
@@ -413,7 +444,41 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Align(
                     alignment: Alignment.bottomLeft,
                     child: TextButton.icon(
-                      onPressed: () {},
+                      onPressed: () {
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              title: TextRegular(
+                                  text: 'Enter ToDo',
+                                  fontSize: 14,
+                                  color: Colors.black),
+                              content: TextFormField(
+                                controller: todoController,
+                              ),
+                              actions: [
+                                TextButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        todos.add({
+                                          'title': todoController.text,
+                                          'isCompleted': false
+                                        });
+                                      });
+
+                                      todoController.clear();
+
+                                      Navigator.pop(context);
+                                    },
+                                    child: TextRegular(
+                                        text: 'Continue',
+                                        fontSize: 14,
+                                        color: Colors.black))
+                              ],
+                            );
+                          },
+                        );
+                      },
                       icon: const Icon(
                         Icons.add_circle_outline,
                         color: Colors.grey,
@@ -490,20 +555,44 @@ class _HomeScreenState extends State<HomeScreen> {
                   padding: const EdgeInsets.only(left: 40, right: 20),
                   child: Row(
                     children: [
-                      TextBold(text: '5:00', fontSize: 42, color: Colors.grey),
+                      TextBold(
+                          text:
+                              formatDuration(Duration(seconds: countdownValue)),
+                          fontSize: 42,
+                          color: Colors.grey),
                       const Expanded(
                         child: SizedBox(),
                       ),
-                      const Icon(
-                        Icons.play_circle_outlined,
-                        color: Colors.grey,
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            isPlaying = !isPlaying;
+                            if (isPlaying) {
+                              startCountdownTimer();
+                            } else {
+                              stopCountdownTimer();
+                            }
+                          });
+                        },
+                        child: Icon(
+                          isPlaying ? Icons.pause : Icons.play_circle_outlined,
+                          color: Colors.grey,
+                        ),
                       ),
                       const SizedBox(
                         width: 10,
                       ),
-                      const Icon(
-                        Icons.refresh,
-                        color: Colors.grey,
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            stopCountdownTimer();
+                            startCountdownTimer();
+                          });
+                        },
+                        child: const Icon(
+                          Icons.refresh,
+                          color: Colors.grey,
+                        ),
                       ),
                     ],
                   ),
@@ -519,29 +608,47 @@ class _HomeScreenState extends State<HomeScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        setState(() {
+                          isPomodoro = true;
+                          isShortBreak = false;
+                          isLongBreak = false;
+                        });
+                      },
                       child: TextRegular(
                         text: 'Pomodoro',
                         fontSize: 12,
-                        color: Colors.grey,
+                        color: isPomodoro ? Colors.blue : Colors.grey,
                       ),
                     ),
                     const SizedBox(height: 30, child: VerticalDivider()),
                     TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        setState(() {
+                          isPomodoro = false;
+                          isShortBreak = true;
+                          isLongBreak = false;
+                        });
+                      },
                       child: TextRegular(
                         text: 'Short Break',
                         fontSize: 12,
-                        color: Colors.grey,
+                        color: isShortBreak ? Colors.blue : Colors.grey,
                       ),
                     ),
                     const SizedBox(height: 30, child: VerticalDivider()),
                     TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        setState(() {
+                          isPomodoro = false;
+                          isShortBreak = false;
+                          isLongBreak = true;
+                        });
+                      },
                       child: TextRegular(
                         text: 'Long Break',
                         fontSize: 12,
-                        color: Colors.grey,
+                        color: isLongBreak ? Colors.blue : Colors.grey,
                       ),
                     ),
                   ],
@@ -962,5 +1069,38 @@ class _HomeScreenState extends State<HomeScreen> {
         : const SizedBox(
             width: 300,
           );
+  }
+
+  void startCountdownTimer() {
+    if (isPomodoro) {
+      durationMinutes = 30;
+    } else if (isShortBreak) {
+      durationMinutes = 5;
+    } else if (isLongBreak) {
+      durationMinutes = 10;
+    }
+
+    final durationSeconds = durationMinutes * 60;
+    countdownValue = durationSeconds;
+
+    countdownTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      setState(() {
+        countdownValue--;
+        if (countdownValue <= 0) {
+          stopCountdownTimer();
+        }
+      });
+    });
+  }
+
+  void stopCountdownTimer() {
+    countdownTimer?.cancel();
+    countdownValue = 0;
+  }
+
+  String formatDuration(Duration duration) {
+    final minutes = duration.inMinutes;
+    final seconds = duration.inSeconds % 60;
+    return '$minutes:${seconds.toString().padLeft(2, '0')}';
   }
 }

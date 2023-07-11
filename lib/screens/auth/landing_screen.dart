@@ -1,6 +1,4 @@
-import 'package:firebase_auth_oauth/firebase_auth_oauth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:multifocus/utils/colors.dart';
 import 'package:multifocus/utils/routes.dart';
 import 'package:multifocus/widgets/button_widget.dart';
@@ -22,19 +20,48 @@ class _LandingScreenState extends State<LandingScreen> {
 
   final nameController = TextEditingController();
 
-  Future<void> performLogin(BuildContext context) async {
-    try {
-      final scopes = ['email', 'profile']; // Scopes for Microsoft login
-      final parameters = {
-        'tenant': 'f8cdef31-a31e-4b4a-93e4-5f571e91255a'
-      }; // Add your tenant ID
-      await FirebaseAuthOAuth()
-          .openSignInFlow('microsoft.com', scopes, parameters);
-    } on PlatformException catch (error) {
-      debugPrint("${error.code}: ${error.message}");
-    }
-    Navigator.of(context).pushReplacementNamed(Routes().homescreen);
-  }
+  // Future<void> performLogin() async {
+  //   try {
+  //     final provider = OAuthProvider('microsoft.com');
+  //     await FirebaseAuthWeb.instance.signInWithPopup(provider);
+  //     final user = FirebaseAuth.instance.currentUser;
+  //     if (user != null) {
+  //       // User is signed in successfully
+  //       print('User: ${user.uid}');
+  //     } else {
+  //       // User is not signed in
+  //       print('User is not signed in');
+  //     }
+  //   } catch (e) {
+  //     print('Error signing in with Microsoft: $e');
+  //   }
+  // }
+
+  // Future<void> performLogin() async {
+  //   try {
+  //     const redirectUri =
+  //         'http://localhost:60190/'; // Replace with your redirect URI
+  //     const clientId =
+  //         'f8cdef31-a31e-4b4a-93e4-5f571e91255a'; // Replace with your client ID
+
+  //     const authorizationEndpoint =
+  //         'https://login.microsoftonline.com/common/oauth2/v2.0/authorize';
+  //     final queryParams = {
+  //       'client_id': clientId,
+  //       'response_type': 'code',
+  //       'redirect_uri': redirectUri,
+  //       'scope': 'openid email profile', // Add additional scopes if needed
+  //     };
+
+  //     final authorizationUrl = Uri.parse(authorizationEndpoint)
+  //         .replace(queryParameters: queryParams);
+
+  //     // Open the authorization URL in a new window
+  //     window.open(authorizationUrl.toString(), 'Microsoft Login');
+  //   } catch (e) {
+  //     print('Error initiating Microsoft login: $e');
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -239,7 +266,9 @@ class _LandingScreenState extends State<LandingScreen> {
                     height: 50,
                     color: Colors.white,
                     onPressed: () async {
-                      performLogin(context);
+                      Navigator.pushReplacementNamed(
+                          context, Routes().homescreen);
+                      // performLogin();
                     },
                     child: SizedBox(
                       width: 225,

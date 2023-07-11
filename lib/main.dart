@@ -23,6 +23,15 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   // This widget is the root of your application.
+
+  void handleRedirect(String authorizationCode) {
+    // Handle the authorization code received from the redirect
+    print('Authorization code: $authorizationCode');
+
+    // Use the authorization code to exchange for an access token
+    // and perform further authentication steps as needed
+  }
+
   @override
   Widget build(BuildContext context) {
     return CalendarControllerProvider(
