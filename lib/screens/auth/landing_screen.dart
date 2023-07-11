@@ -1,4 +1,6 @@
+import 'package:firebase_auth_oauth/firebase_auth_oauth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:multifocus/utils/colors.dart';
 import 'package:multifocus/utils/routes.dart';
 import 'package:multifocus/widgets/button_widget.dart';
@@ -6,12 +8,34 @@ import 'package:multifocus/widgets/dialogs/about_us_dialog.dart';
 import 'package:multifocus/widgets/text_widget.dart';
 import 'package:multifocus/widgets/textfield_widget.dart';
 
-class LandingScreen extends StatelessWidget {
+class LandingScreen extends StatefulWidget {
+  const LandingScreen({super.key});
+
+  @override
+  State<LandingScreen> createState() => _LandingScreenState();
+}
+
+class _LandingScreenState extends State<LandingScreen> {
   final emailController = TextEditingController();
+
   final passwordController = TextEditingController();
+
   final nameController = TextEditingController();
 
-  LandingScreen({super.key});
+  Future<void> performLogin(BuildContext context) async {
+    try {
+      final scopes = ['email', 'profile']; // Scopes for Microsoft login
+      final parameters = {
+        'tenant': 'f8cdef31-a31e-4b4a-93e4-5f571e91255a'
+      }; // Add your tenant ID
+      await FirebaseAuthOAuth()
+          .openSignInFlow('microsoft.com', scopes, parameters);
+    } on PlatformException catch (error) {
+      debugPrint("${error.code}: ${error.message}");
+    }
+    Navigator.of(context).pushReplacementNamed(Routes().homescreen);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -214,9 +238,8 @@ class LandingScreen extends StatelessWidget {
                     minWidth: 250,
                     height: 50,
                     color: Colors.white,
-                    onPressed: () {
-                      Navigator.pushReplacementNamed(
-                          context, Routes().homescreen);
+                    onPressed: () async {
+                      performLogin(context);
                     },
                     child: SizedBox(
                       width: 225,
