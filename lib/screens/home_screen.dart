@@ -3,9 +3,12 @@ import 'dart:async';
 import 'package:calendar_view/calendar_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:multifocus/screens/components/music_player_component.dart';
 import 'package:multifocus/widgets/text_widget.dart';
 
 import '../utils/routes.dart';
+
+bool isMusicPlaying = false;
 
 final box = GetStorage();
 
@@ -327,7 +330,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       const SizedBox(
                         height: 20,
                       ),
-                      music(),
+                      isMusicPlaying
+                          ? MusicComponent(videoId: urlController.text)
+                          : music(),
                       const SizedBox(
                         height: 20,
                       ),
@@ -730,13 +735,17 @@ class _HomeScreenState extends State<HomeScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                              TextBold(
-                                text: 'Title here',
-                                fontSize: 16,
-                                color: Colors.black,
+                              SizedBox(
+                                width: 75,
+                                child: TextBold(
+                                  overFlow: TextOverflow.ellipsis,
+                                  text: 'No Title',
+                                  fontSize: 16,
+                                  color: Colors.black,
+                                ),
                               ),
                               TextBold(
-                                text: 'Album here',
+                                text: 'No Author',
                                 fontSize: 13,
                                 color: Colors.grey,
                               ),
@@ -747,24 +756,43 @@ class _HomeScreenState extends State<HomeScreen> {
                       const Expanded(
                         child: SizedBox(),
                       ),
-                      const Icon(
-                        Icons.skip_previous_rounded,
-                        color: Colors.grey,
+                      GestureDetector(
+                        onTap: () {
+                          if (urlController.text != '') {
+                            setState(() {
+                              isMusicPlaying = true;
+                            });
+
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: TextRegular(
+                                  text:
+                                      'Music added to player! Click the play button again to play the music.',
+                                  fontSize: 12,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            );
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: TextRegular(
+                                  text: 'Please enter a valid youtube url!',
+                                  fontSize: 12,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            );
+                          }
+                        },
+                        child: const Icon(
+                          Icons.play_circle_outlined,
+                          color: Colors.grey,
+                          size: 32,
+                        ),
                       ),
                       const SizedBox(
-                        width: 10,
-                      ),
-                      const Icon(
-                        Icons.play_circle_outlined,
-                        color: Colors.grey,
-                        size: 32,
-                      ),
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      const Icon(
-                        Icons.skip_next_rounded,
-                        color: Colors.grey,
+                        width: 20,
                       ),
                     ],
                   ),
@@ -795,7 +823,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(100)),
                       fillColor: Colors.grey[200],
-                      hintText: 'Enter Spotify, YouTube, or Apple Music URL',
+                      hintText: 'Enter a YouTube URL',
                       border: InputBorder.none,
                     ),
                     controller: urlController,
@@ -1013,18 +1041,23 @@ class _HomeScreenState extends State<HomeScreen> {
             height: 200,
             width: 400,
             decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(20),
+              color: Colors.yellow[100], // Set the yellow background color
+              borderRadius: BorderRadius.circular(10),
+              border: Border.all(
+                color: Colors.yellow[600]!, // Add a border color
+                width: 2,
+              ),
             ),
             child: Column(
               children: [
                 Container(
                   height: 30,
-                  decoration: const BoxDecoration(
-                    color: Colors.grey,
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(20),
-                      topRight: Radius.circular(20),
+                  decoration: BoxDecoration(
+                    color: Colors.yellow[
+                        600], // Match the header color with the background
+                    borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(10),
+                      topRight: Radius.circular(10),
                     ),
                   ),
                   child: Padding(
@@ -1033,10 +1066,13 @@ class _HomeScreenState extends State<HomeScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        TextRegular(
-                          text: 'Sticky Notes',
-                          fontSize: 14,
-                          color: Colors.white,
+                        const Text(
+                          'Sticky Notes',
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.black, // Adjust the font color
+                            fontWeight: FontWeight.bold, // Add font weight
+                          ),
                         ),
                         GestureDetector(
                           onTap: () {
@@ -1046,20 +1082,25 @@ class _HomeScreenState extends State<HomeScreen> {
                           },
                           child: const Icon(
                             Icons.remove,
-                            color: Colors.white,
+                            color: Colors.black, // Adjust the font color
                           ),
                         ),
                       ],
                     ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
-                  child: TextFormField(
-                    minLines: 5,
-                    maxLines: 5,
-                    decoration: const InputDecoration(
-                      border: InputBorder.none,
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+                    child: TextFormField(
+                      minLines: 5,
+                      maxLines: 5,
+                      style: const TextStyle(
+                        fontSize: 16, // Adjust the font size
+                      ),
+                      decoration: const InputDecoration(
+                        border: InputBorder.none,
+                      ),
                     ),
                   ),
                 ),

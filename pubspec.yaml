@@ -44,8 +44,9 @@ dependencies:
   firebase_core_web: ^2.2.2
   firebase_auth_web: ^5.2.10
   http:
-  audioplayers:
   get_storage:
+  youtube_player_iframe:
+
 
 dev_dependencies:
   flutter_test:
