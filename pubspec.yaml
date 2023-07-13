@@ -46,6 +46,9 @@ dependencies:
   http:
   get_storage:
   youtube_player_iframe:
+  intl:
+
+
 
 
 dev_dependencies:

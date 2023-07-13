@@ -1,11 +1,14 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:calendar_view/calendar_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:intl/intl.dart';
 import 'package:multifocus/screens/components/music_player_component.dart';
 import 'package:multifocus/widgets/text_widget.dart';
 
+import '../utils/colors.dart';
 import '../utils/routes.dart';
 
 bool isMusicPlaying = false;
@@ -263,56 +266,381 @@ class _HomeScreenState extends State<HomeScreen> {
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(20),
                           ),
-                          child: Column(
+                          child: Stack(
                             children: [
-                              Padding(
-                                padding: const EdgeInsets.only(right: 10),
-                                child: Align(
-                                  alignment: Alignment.topRight,
-                                  child: IconButton(
-                                    onPressed: () {
-                                      setState(() {
-                                        calendarClicked = !calendarClicked;
-                                      });
-                                    },
-                                    icon: const Icon(
-                                      Icons.remove,
+                              Column(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(right: 10),
+                                    child: Align(
+                                      alignment: Alignment.topRight,
+                                      child: IconButton(
+                                        onPressed: () {
+                                          setState(() {
+                                            calendarClicked = !calendarClicked;
+                                          });
+                                        },
+                                        icon: const Icon(
+                                          Icons.remove,
+                                          color: Colors.grey,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Center(
+                                    child: TextBold(
+                                      text: 'Your Calendar:',
+                                      fontSize: 14,
                                       color: Colors.grey,
                                     ),
                                   ),
-                                ),
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                  SizedBox(
+                                    height: 415,
+                                    width: min(
+                                        MediaQuery.of(context).size.width * 0.8,
+                                        1024),
+                                    child: WeekView(
+                                      eventTileBuilder:
+                                          (date, events, boundry, start, end) {
+                                        // Return your widget to display as event tile.
+                                        return Padding(
+                                          padding: const EdgeInsets.all(2.5),
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                              color: Colors.blue[400],
+                                              borderRadius:
+                                                  BorderRadius.circular(5),
+                                            ),
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.all(2.5),
+                                              child: TextRegular(
+                                                  text: events[0].title,
+                                                  fontSize: 10,
+                                                  color: Colors.white),
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                      initialDay: DateTime.now(),
+                                      headerStyle: const HeaderStyle(
+                                          headerTextStyle: TextStyle(
+                                            fontFamily: 'QRegular',
+                                            color: Colors.grey,
+                                            fontSize: 14,
+                                          ),
+                                          decoration: BoxDecoration(
+                                            color: Colors.white,
+                                          )),
+                                      width: 375,
+                                    ),
+                                  ),
+                                ],
                               ),
-                              Center(
-                                child: TextBold(
-                                  text: 'Connect your calendar:',
-                                  fontSize: 14,
-                                  color: Colors.grey,
-                                ),
-                              ),
-                              Center(
-                                child: TextBold(
-                                  text: 'Icons here',
-                                  fontSize: 14,
-                                  color: Colors.grey,
-                                ),
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              SizedBox(
-                                height: 375,
-                                child: WeekView(
-                                  initialDay: DateTime.now(),
-                                  headerStyle: const HeaderStyle(
-                                      headerTextStyle: TextStyle(
-                                        fontFamily: 'QRegular',
-                                        color: Colors.grey,
-                                        fontSize: 14,
-                                      ),
-                                      decoration: BoxDecoration(
-                                        color: Colors.white,
-                                      )),
-                                  width: 375,
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                    right: 10, bottom: 10),
+                                child: Align(
+                                  alignment: Alignment.bottomRight,
+                                  child: FloatingActionButton(
+                                    child: const Icon(
+                                      Icons.add,
+                                      color: Colors.white,
+                                    ),
+                                    onPressed: () {
+                                      showDialog(
+                                        context: context,
+                                        builder: (context) {
+                                          return StatefulBuilder(
+                                              builder: (context, setState) {
+                                            return AlertDialog(
+                                              title: TextRegular(
+                                                  text: 'Input Event Details',
+                                                  fontSize: 16,
+                                                  color: Colors.black),
+                                              content: Column(
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: [
+                                                  TextField(
+                                                    decoration:
+                                                        const InputDecoration(
+                                                      labelText: 'Title',
+                                                      labelStyle: TextStyle(
+                                                        fontFamily: 'Regular',
+                                                        color: Colors.grey,
+                                                        fontSize: 12,
+                                                      ),
+                                                    ),
+                                                    onChanged: (value) {
+                                                      setState(() {
+                                                        title = value;
+                                                      });
+                                                    },
+                                                  ),
+                                                  const SizedBox(height: 10),
+                                                  Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: [
+                                                      TextRegular(
+                                                          text: 'Start Time:',
+                                                          fontSize: 14,
+                                                          color: Colors.grey),
+                                                      const SizedBox(width: 10),
+                                                      ElevatedButton(
+                                                        onPressed: () async {
+                                                          TimeOfDay?
+                                                              pickedTime =
+                                                              await showTimePicker(
+                                                            builder: (context,
+                                                                child) {
+                                                              return Theme(
+                                                                data: Theme.of(
+                                                                        context)
+                                                                    .copyWith(
+                                                                  colorScheme:
+                                                                      const ColorScheme
+                                                                          .light(
+                                                                    primary:
+                                                                        primary,
+                                                                    onPrimary:
+                                                                        Colors
+                                                                            .white,
+                                                                    onSurface:
+                                                                        Colors
+                                                                            .grey,
+                                                                  ),
+                                                                ),
+                                                                child: child!,
+                                                              );
+                                                            },
+                                                            initialTime:
+                                                                TimeOfDay.now(),
+                                                            context: context,
+                                                          );
+
+                                                          if (pickedTime !=
+                                                              null) {
+                                                            setState(() {
+                                                              startTime =
+                                                                  pickedTime;
+                                                              pickedstartTime =
+                                                                  true;
+                                                            });
+                                                          } else {
+                                                            return;
+                                                          }
+                                                        },
+                                                        child: TextRegular(
+                                                          text: pickedstartTime
+                                                              ? '${startTime.hour}:${startTime.minute} '
+                                                              : 'Select Start Time',
+                                                          fontSize: 14,
+                                                          color: Colors.white,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  const SizedBox(height: 10),
+                                                  Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: [
+                                                      TextRegular(
+                                                          text: 'End Time:',
+                                                          fontSize: 14,
+                                                          color: Colors.grey),
+                                                      const SizedBox(width: 10),
+                                                      ElevatedButton(
+                                                        onPressed: () async {
+                                                          TimeOfDay?
+                                                              pickedTime =
+                                                              await showTimePicker(
+                                                            builder: (context,
+                                                                child) {
+                                                              return Theme(
+                                                                data: Theme.of(
+                                                                        context)
+                                                                    .copyWith(
+                                                                  colorScheme:
+                                                                      const ColorScheme
+                                                                          .light(
+                                                                    primary:
+                                                                        primary,
+                                                                    onPrimary:
+                                                                        Colors
+                                                                            .white,
+                                                                    onSurface:
+                                                                        Colors
+                                                                            .grey,
+                                                                  ),
+                                                                ),
+                                                                child: child!,
+                                                              );
+                                                            },
+                                                            initialTime:
+                                                                TimeOfDay.now(),
+                                                            context: context,
+                                                          );
+
+                                                          if (pickedTime !=
+                                                              null) {
+                                                            setState(() {
+                                                              endTime =
+                                                                  pickedTime;
+                                                              pickedendTime =
+                                                                  true;
+                                                            });
+                                                          } else {
+                                                            return;
+                                                          }
+                                                        },
+                                                        child: TextRegular(
+                                                          text: pickedendTime
+                                                              ? '${endTime.hour}:${endTime.minute} '
+                                                              : 'Select End Time',
+                                                          fontSize: 14,
+                                                          color: Colors.white,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  const SizedBox(height: 10),
+                                                  Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: [
+                                                      TextRegular(
+                                                          text: 'Date:',
+                                                          fontSize: 14,
+                                                          color: Colors.grey),
+                                                      const SizedBox(width: 10),
+                                                      ElevatedButton(
+                                                        onPressed: () async {
+                                                          DateTime? pickedDate =
+                                                              await showDatePicker(
+                                                                  builder:
+                                                                      (context,
+                                                                          child) {
+                                                                    return Theme(
+                                                                      data: Theme.of(
+                                                                              context)
+                                                                          .copyWith(
+                                                                        colorScheme:
+                                                                            const ColorScheme.light(
+                                                                          primary:
+                                                                              primary,
+                                                                          onPrimary:
+                                                                              Colors.white,
+                                                                          onSurface:
+                                                                              Colors.grey,
+                                                                        ),
+                                                                      ),
+                                                                      child:
+                                                                          child!,
+                                                                    );
+                                                                  },
+                                                                  context:
+                                                                      context,
+                                                                  initialDate:
+                                                                      DateTime
+                                                                          .now(),
+                                                                  firstDate:
+                                                                      DateTime(
+                                                                          2023),
+                                                                  lastDate:
+                                                                      DateTime(
+                                                                          2050));
+
+                                                          if (pickedDate !=
+                                                              null) {
+                                                            setState(() {
+                                                              date = pickedDate;
+                                                              pickeddate = true;
+                                                            });
+                                                          } else {
+                                                            return;
+                                                          }
+                                                        },
+                                                        child: TextRegular(
+                                                          text: pickeddate
+                                                              ? DateFormat(
+                                                                      'yyyy-MM-dd')
+                                                                  .format(date)
+                                                              : 'Select Date',
+                                                          fontSize: 14,
+                                                          color: Colors.white,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ],
+                                              ),
+                                              actions: [
+                                                ElevatedButton(
+                                                  onPressed: () {
+                                                    setState(
+                                                      () {
+                                                        CalendarControllerProvider
+                                                                .of(context)
+                                                            .controller
+                                                            .add(
+                                                                CalendarEventData(
+                                                              startTime: DateTime(
+                                                                  DateTime.now()
+                                                                      .year,
+                                                                  DateTime.now()
+                                                                      .month,
+                                                                  DateTime.now()
+                                                                      .day,
+                                                                  startTime
+                                                                      .hour,
+                                                                  startTime
+                                                                      .minute),
+                                                              endTime: DateTime(
+                                                                  DateTime.now()
+                                                                      .year,
+                                                                  DateTime.now()
+                                                                      .month,
+                                                                  DateTime.now()
+                                                                      .day,
+                                                                  endTime.hour,
+                                                                  endTime
+                                                                      .minute),
+                                                              title: title,
+                                                              date: date,
+                                                            ));
+                                                      },
+                                                    );
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                  child: TextRegular(
+                                                      text: 'Add',
+                                                      fontSize: 14,
+                                                      color: Colors.white),
+                                                ),
+                                                TextButton(
+                                                  onPressed: () {
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                  child: TextRegular(
+                                                      text: 'Cancel',
+                                                      fontSize: 12,
+                                                      color: Colors.black),
+                                                ),
+                                              ],
+                                            );
+                                          });
+                                        },
+                                      );
+                                    },
+                                  ),
                                 ),
                               ),
                             ],
@@ -1143,5 +1471,101 @@ class _HomeScreenState extends State<HomeScreen> {
     final minutes = duration.inMinutes;
     final seconds = duration.inSeconds % 60;
     return '$minutes:${seconds.toString().padLeft(2, '0')}';
+  }
+
+  late TimeOfDay startTime;
+  late DateTime date;
+  late TimeOfDay endTime;
+
+  String title = '';
+
+  bool pickedstartTime = false;
+  bool pickeddate = false;
+  bool pickedendTime = false;
+
+  void datePicker(BuildContext context) async {
+    DateTime? pickedDate = await showDatePicker(
+        builder: (context, child) {
+          return Theme(
+            data: Theme.of(context).copyWith(
+              colorScheme: const ColorScheme.light(
+                primary: primary,
+                onPrimary: Colors.white,
+                onSurface: Colors.grey,
+              ),
+            ),
+            child: child!,
+          );
+        },
+        context: context,
+        initialDate: DateTime.now(),
+        firstDate: DateTime(2023),
+        lastDate: DateTime(2050));
+
+    if (pickedDate != null) {
+      setState(() {
+        date = pickedDate;
+        pickeddate = true;
+      });
+    } else {
+      return null;
+    }
+  }
+
+  void startTimePicker() async {
+    TimeOfDay? pickedTime = await showTimePicker(
+      builder: (context, child) {
+        return Theme(
+          data: Theme.of(context).copyWith(
+            colorScheme: const ColorScheme.light(
+              primary: primary,
+              onPrimary: Colors.white,
+              onSurface: Colors.grey,
+            ),
+          ),
+          child: child!,
+        );
+      },
+      initialTime: TimeOfDay.now(),
+      context: context,
+    );
+
+    if (pickedTime != null) {
+      setState(() {
+        startTime = pickedTime;
+      });
+    } else {
+      return null;
+    }
+  }
+
+  void endTimePicker() async {
+    TimeOfDay? pickedTime = await showTimePicker(
+      builder: (context, child) {
+        return Theme(
+          data: Theme.of(context).copyWith(
+            colorScheme: const ColorScheme.light(
+              primary: primary,
+              onPrimary: Colors.white,
+              onSurface: Colors.grey,
+            ),
+          ),
+          child: child!,
+        );
+      },
+      initialTime: TimeOfDay.now(),
+      context: context,
+    );
+
+    if (pickedTime != null) {
+      setState(() {
+        endTime = pickedTime;
+        pickedendTime = true;
+      });
+    } else {
+      return null;
+    }
+
+    setState(() {});
   }
 }
