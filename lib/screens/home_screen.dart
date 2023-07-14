@@ -749,6 +749,17 @@ class _HomeScreenState extends State<HomeScreen> {
                       itemCount: todos.length,
                       itemBuilder: (context, index) {
                         return ListTile(
+                          trailing: IconButton(
+                            onPressed: () {
+                              setState(() {
+                                todos.removeAt(index);
+                              });
+                            },
+                            icon: const Icon(
+                              Icons.delete_outline_rounded,
+                              color: Colors.red,
+                            ),
+                          ),
                           leading: GestureDetector(
                             onTap: () {
                               setState(() {
@@ -1376,21 +1387,16 @@ class _HomeScreenState extends State<HomeScreen> {
             height: 200,
             width: 400,
             decoration: BoxDecoration(
-              color: Colors.yellow[100], // Set the yellow background color
+              color: Colors.white, // Set the yellow background color
               borderRadius: BorderRadius.circular(10),
-              border: Border.all(
-                color: Colors.yellow[600]!, // Add a border color
-                width: 2,
-              ),
             ),
             child: Column(
               children: [
                 Container(
                   height: 30,
-                  decoration: BoxDecoration(
-                    color: Colors.yellow[
-                        600], // Match the header color with the background
-                    borderRadius: const BorderRadius.only(
+                  decoration: const BoxDecoration(
+                    color: Colors.grey,
+                    borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(10),
                       topRight: Radius.circular(10),
                     ),
@@ -1405,8 +1411,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           'Sticky Notes',
                           style: TextStyle(
                             fontSize: 14,
-                            color: Colors.black, // Adjust the font color
-                            fontWeight: FontWeight.bold, // Add font weight
+                            color: Colors.white, // Adjust the font color
+                            fontFamily: 'QRegular', // Add font weight
                           ),
                         ),
                         GestureDetector(
@@ -1417,7 +1423,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           },
                           child: const Icon(
                             Icons.remove,
-                            color: Colors.black, // Adjust the font color
+                            color: Colors.white, // Adjust the font color
                           ),
                         ),
                       ],
@@ -1449,11 +1455,11 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void startCountdownTimer() {
     if (isPomodoro) {
-      durationMinutes = 30;
+      durationMinutes = 25;
     } else if (isShortBreak) {
       durationMinutes = 5;
     } else if (isLongBreak) {
-      durationMinutes = 10;
+      durationMinutes = 15;
     }
 
     final durationSeconds = durationMinutes * 60;
