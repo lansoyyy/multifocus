@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth_web/firebase_auth_web.dart';
 import 'package:flutter/material.dart';
 import 'package:multifocus/utils/colors.dart';
 import 'package:multifocus/utils/routes.dart';
@@ -23,22 +24,23 @@ class _LandingScreenState extends State<LandingScreen> {
 
   final nameController = TextEditingController();
 
-  // Future<void> performLogin() async {
-  //   try {
-  //     final provider = OAuthProvider('microsoft.com');
-  //     await FirebaseAuthWeb.instance.signInWithPopup(provider);
-  //     final user = FirebaseAuth.instance.currentUser;
-  //     if (user != null) {
-  //       // User is signed in successfully
-  //       print('User: ${user.uid}');
-  //     } else {
-  //       // User is not signed in
-  //       print('User is not signed in');
-  //     }
-  //   } catch (e) {
-  //     print('Error signing in with Microsoft: $e');
-  //   }
-  // }
+  Future<void> performLogin() async {
+    try {
+      final provider = OAuthProvider('microsoft.com');
+      await FirebaseAuthWeb.instance.signInWithPopup(provider);
+      final user = FirebaseAuth.instance.currentUser;
+      if (user != null) {
+        // User is signed in successfully
+        Navigator.pushReplacementNamed(context, Routes().homescreen);
+        print('User: ${user.uid}');
+      } else {
+        // User is not signed in
+        print('User is not signed in');
+      }
+    } catch (e) {
+      print('Error signing in with Microsoft: $e');
+    }
+  }
 
   // Future<void> performLogin() async {
   //   try {
@@ -267,9 +269,9 @@ class _LandingScreenState extends State<LandingScreen> {
                     height: 50,
                     color: Colors.white,
                     onPressed: () async {
-                      Navigator.pushReplacementNamed(
-                          context, Routes().homescreen);
-                      // performLogin();
+                      // Navigator.pushReplacementNamed(
+                      //     context, Routes().homescreen);
+                      performLogin();
                     },
                     child: SizedBox(
                       width: 225,
