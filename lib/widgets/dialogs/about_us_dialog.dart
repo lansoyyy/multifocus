@@ -108,34 +108,6 @@ class AboutusDialog extends StatelessWidget {
                       child: const Padding(
                         padding: EdgeInsets.all(5.0),
                         child: Icon(
-                          Icons.call,
-                          color: Colors.grey,
-                          size: 14,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    TextRegular(
-                      text: '+63XX-XXX-XXXX',
-                      fontSize: 12,
-                      color: Colors.white,
-                    ),
-                  ],
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Container(
-                      decoration: const BoxDecoration(
-                          color: Colors.white, shape: BoxShape.circle),
-                      child: const Padding(
-                        padding: EdgeInsets.all(5.0),
-                        child: Icon(
                           Icons.email,
                           color: Colors.grey,
                           size: 14,
@@ -146,7 +118,7 @@ class AboutusDialog extends StatelessWidget {
                       width: 10,
                     ),
                     TextRegular(
-                      text: 'charlie@mma.com',
+                      text: 'multifocusdvo@gmail.com',
                       fontSize: 12,
                       color: Colors.white,
                     ),
