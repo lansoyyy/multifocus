@@ -2,11 +2,13 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:calendar_view/calendar_view.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:intl/intl.dart';
 import 'package:multifocus/screens/components/music_player_component.dart';
 import 'package:multifocus/widgets/text_widget.dart';
+import 'package:multifocus/widgets/toast_widget.dart';
 
 import '../utils/colors.dart';
 import '../utils/routes.dart';
@@ -1058,6 +1060,11 @@ class _HomeScreenState extends State<HomeScreen> {
                               color: Colors.grey,
                               borderRadius: BorderRadius.circular(10),
                             ),
+                            child: const Icon(
+                              Icons.music_note_rounded,
+                              color: Colors.white,
+                              size: 48,
+                            ),
                           ),
                           const SizedBox(
                             width: 10,
@@ -1094,26 +1101,10 @@ class _HomeScreenState extends State<HomeScreen> {
                               isMusicPlaying = true;
                             });
 
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: TextRegular(
-                                  text:
-                                      'Music added to player! Click the play button again to play the music.',
-                                  fontSize: 12,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            );
+                            showToast(
+                                'Music added to player! Click the play button again to play the music.');
                           } else {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: TextRegular(
-                                  text: 'Please enter a valid youtube url!',
-                                  fontSize: 12,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            );
+                            showToast('Please enter a valid youtube url!');
                           }
                         },
                         child: const Icon(
@@ -1167,6 +1158,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget settingsDialog() {
+    final user = FirebaseAuth.instance.currentUser;
     return settingsClicked
         ? Container(
             height: 350,
@@ -1220,7 +1212,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         TextBold(
-                          text: 'Hey, @Name',
+                          text: 'Hey, @${user!.displayName}',
                           fontSize: 18,
                           color: Colors.black,
                         ),
@@ -1283,9 +1275,13 @@ class _HomeScreenState extends State<HomeScreen> {
                         border: Border.all(color: Colors.grey),
                       ),
                       child: TextButton(
-                        onPressed: () {
-                          Navigator.pushReplacementNamed(
-                              context, Routes().landingscreen);
+                        onPressed: () async {
+                          await FirebaseAuth.instance.signOut().then((value) {
+                            Navigator.pushReplacementNamed(
+                                context, Routes().landingscreen);
+                          });
+
+                          showToast('Signed out!');
                         },
                         child: TextRegular(
                           text: 'Signout',
@@ -1333,9 +1329,17 @@ class _HomeScreenState extends State<HomeScreen> {
                                       ),
                                       MaterialButton(
                                         onPressed: () async {
-                                          Navigator.of(context)
-                                              .pushReplacementNamed(
+                                          await FirebaseAuth.instance
+                                              .signOut()
+                                              .then((value) {
+                                            user.delete().then((value) {
+                                              Navigator.pushReplacementNamed(
+                                                  context,
                                                   Routes().landingscreen);
+                                            });
+                                          });
+                                          showToast(
+                                              'Account deleted succesfully!');
                                         },
                                         child: const Text(
                                           'Continue',

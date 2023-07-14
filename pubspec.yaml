@@ -47,6 +47,7 @@ dependencies:
   get_storage:
   youtube_player_iframe:
   intl:
+  fluttertoast:
 
 
 

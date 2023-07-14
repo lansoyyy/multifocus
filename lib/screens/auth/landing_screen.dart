@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:multifocus/utils/colors.dart';
 import 'package:multifocus/utils/routes.dart';
@@ -5,6 +6,8 @@ import 'package:multifocus/widgets/button_widget.dart';
 import 'package:multifocus/widgets/dialogs/about_us_dialog.dart';
 import 'package:multifocus/widgets/text_widget.dart';
 import 'package:multifocus/widgets/textfield_widget.dart';
+
+import '../../widgets/toast_widget.dart';
 
 class LandingScreen extends StatefulWidget {
   const LandingScreen({super.key});
@@ -139,8 +142,7 @@ class _LandingScreenState extends State<LandingScreen> {
                   color: Colors.white,
                   label: 'ENTER WORKSPACE',
                   onPressed: () {
-                    Navigator.pushReplacementNamed(
-                        context, Routes().homescreen);
+                    signinPopupDialog(context);
                   },
                 ),
               ],
@@ -246,8 +248,7 @@ class _LandingScreenState extends State<LandingScreen> {
                     height: 50,
                     color: primary,
                     onPressed: () {
-                      Navigator.pushReplacementNamed(
-                          context, Routes().homescreen);
+                      login(context);
                     },
                     child: TextRegular(
                       text: 'Login',
@@ -435,8 +436,7 @@ class _LandingScreenState extends State<LandingScreen> {
                     height: 50,
                     color: primary,
                     onPressed: () {
-                      Navigator.pushReplacementNamed(
-                          context, Routes().homescreen);
+                      register(context);
                     },
                     child: TextRegular(
                       text: 'Signup',
@@ -470,5 +470,59 @@ class _LandingScreenState extends State<LandingScreen> {
             ),
           );
         });
+  }
+
+  login(context) async {
+    try {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: emailController.text, password: passwordController.text);
+      showToast('Logged in succesfully!');
+      Navigator.of(context).pushReplacementNamed(Routes().homescreen);
+    } on FirebaseAuthException catch (e) {
+      Navigator.pop(context);
+      if (e.code == 'user-not-found') {
+        showToast("No user found with that email.");
+      } else if (e.code == 'wrong-password') {
+        showToast("Wrong password provided for that user.");
+      } else if (e.code == 'invalid-email') {
+        showToast("Invalid email provided.");
+      } else if (e.code == 'user-disabled') {
+        showToast("User account has been disabled.");
+      } else {
+        showToast("An error occurred: ${e.message}");
+      }
+    } on Exception catch (e) {
+      showToast("An error occurred: $e");
+    }
+  }
+
+  register(context) async {
+    try {
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+          email: emailController.text, password: passwordController.text);
+
+      final user = FirebaseAuth.instance.currentUser;
+
+      await user?.updateDisplayName(nameController.text);
+
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: emailController.text, password: passwordController.text);
+
+      showToast('Account created succesfully!');
+      Navigator.of(context).pushReplacementNamed(Routes().homescreen);
+    } on FirebaseAuthException catch (e) {
+      Navigator.pop(context);
+      if (e.code == 'weak-password') {
+        showToast('The password provided is too weak.');
+      } else if (e.code == 'email-already-in-use') {
+        showToast('The account already exists for that email.');
+      } else if (e.code == 'invalid-email') {
+        showToast('The email address is not valid.');
+      } else {
+        showToast(e.toString());
+      }
+    } on Exception catch (e) {
+      showToast("An error occurred: $e");
+    }
   }
 }
