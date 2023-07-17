@@ -97,7 +97,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             });
                           },
                           child: Image.asset(
-                            'assets/images/MultiFocus_Black@4x.png',
+                            'assets/images/menu.png',
                           ),
                         ),
                       ),
