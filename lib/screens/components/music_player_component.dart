@@ -149,7 +149,7 @@ class _MusicComponentState extends State<MusicComponent> {
                         },
                         child: const Icon(
                           Icons.pause,
-                          color: Colors.grey,
+                          color: Colors.black,
                           size: 32,
                         ),
                       )
@@ -163,7 +163,7 @@ class _MusicComponentState extends State<MusicComponent> {
                         },
                         child: const Icon(
                           Icons.play_circle_outlined,
-                          color: Colors.grey,
+                          color: Colors.black,
                           size: 32,
                         ),
                       ),

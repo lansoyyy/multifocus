@@ -31,7 +31,6 @@ class _HomeScreenState extends State<HomeScreen> {
   bool musicClicked = false;
   bool notesClicked = false;
 
-  bool settingsClicked = false;
   final urlController = TextEditingController();
 
   bool isExpanded = true;
@@ -238,15 +237,268 @@ class _HomeScreenState extends State<HomeScreen> {
                       isExpanded
                           ? IconButton(
                               onPressed: () {
-                                setState(() {
-                                  settingsClicked = !settingsClicked;
-                                });
+                                showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return Dialog(
+                                      child: Container(
+                                        height: 350,
+                                        width: 400,
+                                        decoration: const BoxDecoration(
+                                          color: Colors.white,
+                                        ),
+                                        child: Column(
+                                          children: [
+                                            Container(
+                                              height: 30,
+                                              decoration: const BoxDecoration(
+                                                color: Colors.grey,
+                                              ),
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.fromLTRB(
+                                                        20, 5, 20, 5),
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  children: [
+                                                    TextRegular(
+                                                      text: 'Settings',
+                                                      fontSize: 14,
+                                                      color: Colors.white,
+                                                    ),
+                                                    GestureDetector(
+                                                      onTap: () {
+                                                        Navigator.pop(context);
+                                                      },
+                                                      child: const Icon(
+                                                        Icons.remove,
+                                                        color: Colors.white,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.fromLTRB(
+                                                      20, 10, 20, 0),
+                                              child: Align(
+                                                alignment: Alignment.topLeft,
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    TextBold(
+                                                      text:
+                                                          'Hey, @${user!.displayName}',
+                                                      fontSize: 18,
+                                                      color: Colors.black,
+                                                    ),
+                                                    TextRegular(
+                                                      text:
+                                                          'Start customizing your workspace page!',
+                                                      fontSize: 14,
+                                                      color: Colors.grey,
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                            Expanded(
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.fromLTRB(
+                                                        20, 10, 20, 10),
+                                                child: Container(
+                                                  decoration: BoxDecoration(
+                                                    color: Colors.grey[200],
+                                                  ),
+                                                  child: GridView.builder(
+                                                    itemCount:
+                                                        backgroundImages.length,
+                                                    gridDelegate:
+                                                        const SliverGridDelegateWithFixedCrossAxisCount(
+                                                            crossAxisCount: 2),
+                                                    itemBuilder:
+                                                        (context, index) {
+                                                      return Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(5.0),
+                                                        child: GestureDetector(
+                                                          onTap: () {
+                                                            setState(() {
+                                                              backgroundImage =
+                                                                  backgroundImages[
+                                                                      index];
+                                                            });
+                                                          },
+                                                          child: Container(
+                                                            decoration:
+                                                                BoxDecoration(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          10),
+                                                              image: DecorationImage(
+                                                                  image: AssetImage(
+                                                                      backgroundImages[
+                                                                          index]),
+                                                                  fit: BoxFit
+                                                                      .cover),
+                                                            ),
+                                                            height: 50,
+                                                          ),
+                                                        ),
+                                                      );
+                                                    },
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            const SizedBox(
+                                              height: 5,
+                                            ),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceEvenly,
+                                              children: [
+                                                Container(
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            100),
+                                                    border: Border.all(
+                                                        color: Colors.grey),
+                                                  ),
+                                                  child: TextButton(
+                                                    onPressed: () async {
+                                                      await FirebaseAuth
+                                                          .instance
+                                                          .signOut()
+                                                          .then((value) {
+                                                        Navigator
+                                                            .pushReplacementNamed(
+                                                                context,
+                                                                Routes()
+                                                                    .landingscreen);
+                                                      });
+
+                                                      showToast('Signed out!');
+                                                    },
+                                                    child: TextRegular(
+                                                      text: 'Signout',
+                                                      fontSize: 14,
+                                                      color: Colors.grey,
+                                                    ),
+                                                  ),
+                                                ),
+                                                Container(
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            100),
+                                                    border: Border.all(
+                                                      color: Colors.red,
+                                                    ),
+                                                  ),
+                                                  child: TextButton(
+                                                    onPressed: () {
+                                                      showDialog(
+                                                          context: context,
+                                                          builder:
+                                                              (context) =>
+                                                                  AlertDialog(
+                                                                    title:
+                                                                        const SizedBox(
+                                                                      width:
+                                                                          150,
+                                                                      child:
+                                                                          Text(
+                                                                        'Are you sure you want to delete your account?',
+                                                                        style: TextStyle(
+                                                                            color: Colors
+                                                                                .red,
+                                                                            fontFamily:
+                                                                                'QBold',
+                                                                            fontWeight:
+                                                                                FontWeight.bold),
+                                                                      ),
+                                                                    ),
+                                                                    content:
+                                                                        const Text(
+                                                                      'This action cannot be undone',
+                                                                      style: TextStyle(
+                                                                          fontFamily:
+                                                                              'QRegular'),
+                                                                    ),
+                                                                    actions: <
+                                                                        Widget>[
+                                                                      MaterialButton(
+                                                                        onPressed:
+                                                                            () =>
+                                                                                Navigator.of(context).pop(true),
+                                                                        child:
+                                                                            const Text(
+                                                                          'Close',
+                                                                          style: TextStyle(
+                                                                              fontFamily: 'QRegular',
+                                                                              fontWeight: FontWeight.bold),
+                                                                        ),
+                                                                      ),
+                                                                      MaterialButton(
+                                                                        onPressed:
+                                                                            () async {
+                                                                          await FirebaseAuth
+                                                                              .instance
+                                                                              .signOut()
+                                                                              .then((value) {
+                                                                            user!.delete().then((value) {
+                                                                              Navigator.pushReplacementNamed(context, Routes().landingscreen);
+                                                                            });
+                                                                          });
+                                                                          showToast(
+                                                                              'Account deleted succesfully!');
+                                                                        },
+                                                                        child:
+                                                                            const Text(
+                                                                          'Continue',
+                                                                          style: TextStyle(
+                                                                              fontFamily: 'QRegular',
+                                                                              fontWeight: FontWeight.bold,
+                                                                              color: Colors.red),
+                                                                        ),
+                                                                      ),
+                                                                    ],
+                                                                  ));
+                                                    },
+                                                    child: TextRegular(
+                                                      text: 'Delete Account',
+                                                      fontSize: 14,
+                                                      color: Colors.red,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            const SizedBox(
+                                              height: 10,
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                );
                               },
-                              icon: Icon(
+                              icon: const Icon(
                                 Icons.settings,
-                                color: settingsClicked
-                                    ? Colors.black
-                                    : Colors.grey,
+                                color: Colors.black,
                               ),
                             )
                           : const SizedBox(),
@@ -296,7 +548,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     child: TextBold(
                                       text: 'Your Calendar:',
                                       fontSize: 14,
-                                      color: Colors.grey,
+                                      color: Colors.black,
                                     ),
                                   ),
                                   const SizedBox(
@@ -679,10 +931,6 @@ class _HomeScreenState extends State<HomeScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        settingsDialog(),
-                        const SizedBox(
-                          height: 20,
-                        ),
                         stickyNotes(),
                       ]),
                 ],
@@ -908,7 +1156,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           text:
                               formatDuration(Duration(seconds: countdownValue)),
                           fontSize: 42,
-                          color: Colors.grey),
+                          color: Colors.black),
                       const Expanded(
                         child: SizedBox(),
                       ),
@@ -925,7 +1173,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         },
                         child: Icon(
                           isPlaying ? Icons.pause : Icons.play_circle_outlined,
-                          color: Colors.grey,
+                          color: Colors.black,
                         ),
                       ),
                       const SizedBox(
@@ -940,7 +1188,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         },
                         child: const Icon(
                           Icons.refresh,
-                          color: Colors.grey,
+                          color: Colors.black,
                         ),
                       ),
                     ],
@@ -1120,7 +1368,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         },
                         child: const Icon(
                           Icons.play_circle_outlined,
-                          color: Colors.grey,
+                          color: Colors.black,
                           size: 32,
                         ),
                       ),
@@ -1168,218 +1416,7 @@ class _HomeScreenState extends State<HomeScreen> {
         : const SizedBox();
   }
 
-  Widget settingsDialog() {
-    final user = FirebaseAuth.instance.currentUser;
-    return settingsClicked
-        ? Container(
-            height: 350,
-            width: 400,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: Column(
-              children: [
-                Container(
-                  height: 30,
-                  decoration: const BoxDecoration(
-                    color: Colors.grey,
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(20),
-                      topRight: Radius.circular(20),
-                    ),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(20, 5, 20, 5),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        TextRegular(
-                          text: 'Settings',
-                          fontSize: 14,
-                          color: Colors.white,
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              settingsClicked = !settingsClicked;
-                            });
-                          },
-                          child: const Icon(
-                            Icons.remove,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
-                  child: Align(
-                    alignment: Alignment.topLeft,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        TextBold(
-                          text: 'Hey, @${user!.displayName}',
-                          fontSize: 18,
-                          color: Colors.black,
-                        ),
-                        TextRegular(
-                          text: 'Start customizing your workspace page!',
-                          fontSize: 14,
-                          color: Colors.grey,
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.grey[200],
-                      ),
-                      child: GridView.builder(
-                        itemCount: backgroundImages.length,
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 2),
-                        itemBuilder: (context, index) {
-                          return Padding(
-                            padding: const EdgeInsets.all(5.0),
-                            child: GestureDetector(
-                              onTap: () {
-                                setState(() {
-                                  backgroundImage = backgroundImages[index];
-                                });
-                              },
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  image: DecorationImage(
-                                      image:
-                                          AssetImage(backgroundImages[index]),
-                                      fit: BoxFit.cover),
-                                ),
-                                height: 50,
-                              ),
-                            ),
-                          );
-                        },
-                      ),
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  height: 5,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(100),
-                        border: Border.all(color: Colors.grey),
-                      ),
-                      child: TextButton(
-                        onPressed: () async {
-                          await FirebaseAuth.instance.signOut().then((value) {
-                            Navigator.pushReplacementNamed(
-                                context, Routes().landingscreen);
-                          });
-
-                          showToast('Signed out!');
-                        },
-                        child: TextRegular(
-                          text: 'Signout',
-                          fontSize: 14,
-                          color: Colors.grey,
-                        ),
-                      ),
-                    ),
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(100),
-                        border: Border.all(
-                          color: Colors.red,
-                        ),
-                      ),
-                      child: TextButton(
-                        onPressed: () {
-                          showDialog(
-                              context: context,
-                              builder: (context) => AlertDialog(
-                                    title: const SizedBox(
-                                      width: 150,
-                                      child: Text(
-                                        'Are you sure you want to delete your account?',
-                                        style: TextStyle(
-                                            color: Colors.red,
-                                            fontFamily: 'QBold',
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                    ),
-                                    content: const Text(
-                                      'This action cannot be undone',
-                                      style: TextStyle(fontFamily: 'QRegular'),
-                                    ),
-                                    actions: <Widget>[
-                                      MaterialButton(
-                                        onPressed: () =>
-                                            Navigator.of(context).pop(true),
-                                        child: const Text(
-                                          'Close',
-                                          style: TextStyle(
-                                              fontFamily: 'QRegular',
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                      ),
-                                      MaterialButton(
-                                        onPressed: () async {
-                                          await FirebaseAuth.instance
-                                              .signOut()
-                                              .then((value) {
-                                            user.delete().then((value) {
-                                              Navigator.pushReplacementNamed(
-                                                  context,
-                                                  Routes().landingscreen);
-                                            });
-                                          });
-                                          showToast(
-                                              'Account deleted succesfully!');
-                                        },
-                                        child: const Text(
-                                          'Continue',
-                                          style: TextStyle(
-                                              fontFamily: 'QRegular',
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.red),
-                                        ),
-                                      ),
-                                    ],
-                                  ));
-                        },
-                        child: TextRegular(
-                          text: 'Delete Account',
-                          fontSize: 14,
-                          color: Colors.red,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-              ],
-            ),
-          )
-        : const SizedBox();
-  }
+  final user = FirebaseAuth.instance.currentUser;
 
   Widget stickyNotes() {
     return notesClicked
