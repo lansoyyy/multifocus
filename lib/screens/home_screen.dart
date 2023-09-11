@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:math';
 
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:calendar_view/calendar_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -1507,6 +1508,20 @@ class _HomeScreenState extends State<HomeScreen> {
         countdownValue--;
         if (countdownValue <= 0) {
           stopCountdownTimer();
+          AwesomeDialog(
+            width: 400,
+            context: context,
+            animType: AnimType.scale,
+            dialogType: DialogType.success,
+            body: TextRegular(
+                text:
+                    'Congrats on reaching the timers end during your work session!',
+                fontSize: 14,
+                color: Colors.black),
+            title: 'Congratulations',
+            desc: 'This is also Ignored',
+            btnOkOnPress: () {},
+          ).show();
         }
       });
     });
