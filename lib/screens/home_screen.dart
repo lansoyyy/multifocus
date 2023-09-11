@@ -10,6 +10,7 @@ import 'package:intl/intl.dart';
 import 'package:multifocus/screens/components/music_player_component.dart';
 import 'package:multifocus/widgets/text_widget.dart';
 import 'package:multifocus/widgets/toast_widget.dart';
+import 'package:pie_chart/pie_chart.dart';
 
 import '../utils/colors.dart';
 import '../utils/routes.dart';
@@ -933,6 +934,10 @@ class _HomeScreenState extends State<HomeScreen> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         stickyNotes(),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        tracker()
                       ]),
                 ],
               ),
@@ -1087,6 +1092,164 @@ class _HomeScreenState extends State<HomeScreen> {
                         color: Colors.grey,
                       ),
                     ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 5,
+                ),
+              ],
+            ),
+          )
+        : const SizedBox(
+            width: 300,
+          );
+  }
+
+  Widget tracker() {
+    return todolistClicked
+        ? Container(
+            height: 200,
+            width: 400,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: Column(
+              children: [
+                Container(
+                  height: 30,
+                  decoration: const BoxDecoration(
+                    color: Colors.grey,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(20),
+                      topRight: Radius.circular(20),
+                    ),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(20, 5, 20, 5),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        TextRegular(
+                          text: 'Progress Tracker',
+                          fontSize: 14,
+                          color: Colors.white,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Card(
+                        child: Padding(
+                          padding: const EdgeInsets.all(5.0),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              TextBold(
+                                text: todos
+                                    .where((number) =>
+                                        number['isCompleted'] == true)
+                                    .toList()
+                                    .length
+                                    .toString(),
+                                fontSize: 24,
+                                color: Colors.black,
+                              ),
+                              const SizedBox(
+                                height: 5,
+                              ),
+                              TextRegular(
+                                text: 'Completed To-dos',
+                                fontSize: 9,
+                                color: Colors.grey,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      Card(
+                        child: Padding(
+                          padding: const EdgeInsets.all(5.0),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              TextBold(
+                                text: todos
+                                    .where((number) =>
+                                        number['isCompleted'] == false)
+                                    .toList()
+                                    .length
+                                    .toString(),
+                                fontSize: 24,
+                                color: Colors.black,
+                              ),
+                              const SizedBox(
+                                height: 5,
+                              ),
+                              TextRegular(
+                                text: 'Uncompleted To-dos',
+                                fontSize: 9,
+                                color: Colors.grey,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Center(
+                  child: PieChart(
+                    dataMap: {
+                      'Completed': todos
+                          .where((number) => number['isCompleted'] == true)
+                          .toList()
+                          .length
+                          .toDouble(),
+                      'Uncompleted': todos
+                          .where((number) => number['isCompleted'] == true)
+                          .toList()
+                          .length
+                          .toDouble()
+                    },
+                    animationDuration: const Duration(milliseconds: 800),
+                    chartLegendSpacing: 32,
+                    chartRadius: 25,
+
+                    initialAngleInDegree: 0,
+                    chartType: ChartType.ring,
+                    ringStrokeWidth: 32,
+
+                    legendOptions: const LegendOptions(
+                      showLegendsInRow: false,
+                      legendPosition: LegendPosition.right,
+                      showLegends: true,
+                      legendShape: BoxShape.circle,
+                      legendTextStyle: TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    chartValuesOptions: const ChartValuesOptions(
+                      showChartValueBackground: true,
+                      showChartValues: true,
+                      showChartValuesInPercentage: false,
+                      showChartValuesOutside: false,
+                      decimalPlaces: 1,
+                    ),
+                    // gradientList: ---To add gradient colors---
+                    // emptyColorGradient: ---Empty Color gradient---
                   ),
                 ),
                 const SizedBox(

@@ -49,6 +49,8 @@ dependencies:
   intl:
   fluttertoast:
   awesome_dialog:
+  pie_chart:
+
 
 
 
