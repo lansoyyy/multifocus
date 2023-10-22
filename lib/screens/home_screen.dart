@@ -45,6 +45,14 @@ class _HomeScreenState extends State<HomeScreen> {
     'assets/images/5.jpg',
     'assets/images/6.jpg',
     'assets/images/7.jpg',
+    'assets/images/8.jpg',
+    'assets/images/9.jpg',
+    'assets/images/10.jpg',
+    'assets/images/11.jpg',
+    'assets/images/12.jpg',
+    'assets/images/13.jpg',
+    'assets/images/14.jpeg',
+    'assets/images/15.jpeg',
   ];
 
   String backgroundImage = 'assets/images/1.jpg';
@@ -439,8 +447,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                           fontFamily:
                                                                               'QRegular'),
                                                                     ),
-                                                                    actions: <
-                                                                        Widget>[
+                                                                    actions: <Widget>[
                                                                       MaterialButton(
                                                                         onPressed:
                                                                             () =>
