@@ -1226,7 +1226,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           .length
                           .toDouble(),
                       'Uncompleted': todos
-                          .where((number) => number['isCompleted'] == true)
+                          .where((number) => number['isCompleted'] == false)
                           .toList()
                           .length
                           .toDouble()
@@ -1684,6 +1684,7 @@ class _HomeScreenState extends State<HomeScreen> {
             animType: AnimType.scale,
             dialogType: DialogType.success,
             body: TextRegular(
+                align: TextAlign.center,
                 text:
                     'Congrats on reaching the timers end during your work session!',
                 fontSize: 14,

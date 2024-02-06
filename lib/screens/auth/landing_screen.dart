@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_auth_web/firebase_auth_web.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +9,7 @@ import 'package:multifocus/widgets/button_widget.dart';
 import 'package:multifocus/widgets/dialogs/about_us_dialog.dart';
 import 'package:multifocus/widgets/text_widget.dart';
 import 'package:multifocus/widgets/textfield_widget.dart';
-
+import 'package:http/http.dart' as http;
 import '../../widgets/toast_widget.dart';
 
 class LandingScreen extends StatefulWidget {
@@ -143,8 +145,27 @@ class _LandingScreenState extends State<LandingScreen> {
                   radius: 100,
                   color: Colors.white,
                   label: 'ENTER WORKSPACE',
-                  onPressed: () {
-                    signinPopupDialog(context);
+                  onPressed: () async {
+                    // const baseUrl =
+                    //     'https://malayanmindanao-test.blackboard.com/';
+                    // const endpoint = 'learn/api/public/v1/calendars';
+
+                    // try {
+                    //   final response =
+                    //       await makeAuthenticatedApiCall(baseUrl, endpoint);
+                    //   print(response);
+                    // } catch (error) {
+                    //   print('Error: $error');
+                    // }
+
+                    try {
+                      final data = await fetchApiData();
+                      print(data); // Process the data as needed
+                    } catch (e) {
+                      print(e);
+                    }
+
+                    // signinPopupDialog(context);
                   },
                 ),
               ],
@@ -525,6 +546,87 @@ class _LandingScreenState extends State<LandingScreen> {
       }
     } on Exception catch (e) {
       showToast("An error occurred: $e");
+    }
+  }
+
+  final String clientId = '8e929175-ecfc-4d6e-b7cf-85b3a467e024';
+  final String clientSecret = 'x2fcmXC8sTcmnycLZpuF4FxtbzoUsoAM';
+  final String tokenUrl =
+      'https://malayanmindanao-test.blackboard.com/learn/api/public/v1/oauth2/token';
+  final String codeUrl =
+      'https://malayanmindanao-test.blackboard.com/learn/api/public/v1/oauth2/authorizationcode';
+
+  Future<Map<String, dynamic>> fetchApiData() async {
+    // Define the required parameters
+    final Map<String, String> queryParams = {
+      'redirect_uri': '',
+      'response_type': "code",
+      'client_id': clientId,
+    };
+
+    // Build the full URL with query parameters
+    final Uri uri = Uri.parse(
+        "https://malayanmindanao-test.blackboard.com/learn/api/public/v1/oauth2/authorizationcode?response_type=code&client_id=8e929175-ecfc-4d6e-b7cf-85b3a467e024&redirect_uri=");
+
+    try {
+      final response = await http.get(uri);
+
+      print(response.statusCode);
+
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> data = json.decode(response.body);
+        return data;
+      } else {
+        throw Exception('Failed to load data');
+      }
+    } catch (e) {
+      throw Exception('Error: $e');
+    }
+  }
+
+  Future<String> getToken() async {
+    final Map<String, String> body = {
+      'grant_type': 'client_credentials',
+      'client_id': clientId,
+      'client_secret': clientSecret,
+    };
+
+    final response = await http.post(Uri.parse(tokenUrl), body: body);
+
+    print(response.statusCode);
+
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> jsonResponse = json.decode(response.body);
+      final String accessToken = jsonResponse['access_token'];
+      return accessToken;
+    } else {
+      throw Exception(
+          'Failed to obtain access token: ${response.reasonPhrase}');
+    }
+  }
+
+  Future<dynamic> makeAuthenticatedApiCall(
+      String baseUrl, String endpoint) async {
+    final String accessToken = await getToken();
+
+    print(accessToken);
+    final apiUrl = Uri.parse(baseUrl + endpoint);
+
+    final headers = {
+      'Authorization': 'Bearer $accessToken',
+    };
+
+    try {
+      final response = await http.get(apiUrl, headers: headers);
+
+      if (response.statusCode == 200) {
+        final jsonResponse = json.decode(response.body);
+        return jsonResponse;
+      } else {
+        throw Exception('Request failed with status: ${response.statusCode}');
+      }
+    } catch (error) {
+      rethrow;
     }
   }
 }
