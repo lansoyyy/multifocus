@@ -67,6 +67,7 @@ class _HomeScreenState extends State<HomeScreen> {
   int durationMinutes = 30; // Default duration for Pomodoro (30 minutes)
   Timer? countdownTimer;
   int countdownValue = 0;
+  Color color = Colors.pink;
 
   @override
   Widget build(BuildContext context) {
@@ -125,9 +126,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       ? TextDecoration.underline
                                       : null,
                                   fontSize: 14,
-                                  color: calendarClicked
-                                      ? Colors.black
-                                      : Colors.grey,
+                                  color: calendarClicked ? Colors.black : color,
                                   fontFamily: 'QRegular',
                                 ),
                               ))
@@ -152,9 +151,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       ? TextDecoration.underline
                                       : null,
                                   fontSize: 14,
-                                  color: todolistClicked
-                                      ? Colors.black
-                                      : Colors.grey,
+                                  color: todolistClicked ? Colors.black : color,
                                   fontFamily: 'QRegular',
                                 ),
                               ))
@@ -179,8 +176,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       ? TextDecoration.underline
                                       : null,
                                   fontSize: 14,
-                                  color:
-                                      timerClicked ? Colors.black : Colors.grey,
+                                  color: timerClicked ? Colors.black : color,
                                   fontFamily: 'QRegular',
                                 ),
                               ))
@@ -205,8 +201,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       ? TextDecoration.underline
                                       : null,
                                   fontSize: 14,
-                                  color:
-                                      notesClicked ? Colors.black : Colors.grey,
+                                  color: notesClicked ? Colors.black : color,
                                   fontFamily: 'QRegular',
                                 ),
                               ),
@@ -232,8 +227,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       ? TextDecoration.underline
                                       : null,
                                   fontSize: 14,
-                                  color:
-                                      musicClicked ? Colors.black : Colors.grey,
+                                  color: musicClicked ? Colors.black : color,
                                   fontFamily: 'QRegular',
                                 ),
                               ))
@@ -261,8 +255,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                           children: [
                                             Container(
                                               height: 30,
-                                              decoration: const BoxDecoration(
-                                                color: Colors.grey,
+                                              decoration: BoxDecoration(
+                                                color: color,
                                               ),
                                               child: Padding(
                                                 padding:
@@ -313,7 +307,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                       text:
                                                           'Start customizing your workspace page!',
                                                       fontSize: 14,
-                                                      color: Colors.grey,
+                                                      color: color,
                                                     ),
                                                   ],
                                                 ),
@@ -326,7 +320,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                         20, 10, 20, 10),
                                                 child: Container(
                                                   decoration: BoxDecoration(
-                                                    color: Colors.grey[200],
+                                                    color: color,
                                                   ),
                                                   child: GridView.builder(
                                                     itemCount:
@@ -384,7 +378,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                         BorderRadius.circular(
                                                             100),
                                                     border: Border.all(
-                                                        color: Colors.grey),
+                                                        color: color),
                                                   ),
                                                   child: TextButton(
                                                     onPressed: () async {
@@ -404,7 +398,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                     child: TextRegular(
                                                       text: 'Signout',
                                                       fontSize: 14,
-                                                      color: Colors.grey,
+                                                      color: color,
                                                     ),
                                                   ),
                                                 ),
@@ -505,9 +499,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                   },
                                 );
                               },
-                              icon: const Icon(
+                              icon: Icon(
                                 Icons.settings,
-                                color: Colors.black,
+                                color: color,
                               ),
                             )
                           : const SizedBox(),
@@ -546,9 +540,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                             calendarClicked = !calendarClicked;
                                           });
                                         },
-                                        icon: const Icon(
+                                        icon: Icon(
                                           Icons.remove,
-                                          color: Colors.grey,
+                                          color: color,
                                         ),
                                       ),
                                     ),
@@ -592,13 +586,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                         );
                                       },
                                       initialDay: DateTime.now(),
-                                      headerStyle: const HeaderStyle(
+                                      headerStyle: HeaderStyle(
                                           headerTextStyle: TextStyle(
                                             fontFamily: 'QRegular',
-                                            color: Colors.grey,
+                                            color: color,
                                             fontSize: 14,
                                           ),
-                                          decoration: BoxDecoration(
+                                          decoration: const BoxDecoration(
                                             color: Colors.white,
                                           )),
                                       width: 375,
@@ -631,12 +625,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 mainAxisSize: MainAxisSize.min,
                                                 children: [
                                                   TextField(
-                                                    decoration:
-                                                        const InputDecoration(
+                                                    decoration: InputDecoration(
                                                       labelText: 'Title',
                                                       labelStyle: TextStyle(
                                                         fontFamily: 'Regular',
-                                                        color: Colors.grey,
+                                                        color: color,
                                                         fontSize: 12,
                                                       ),
                                                     ),
@@ -655,7 +648,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                       TextRegular(
                                                           text: 'Start Time:',
                                                           fontSize: 14,
-                                                          color: Colors.grey),
+                                                          color: color),
                                                       const SizedBox(width: 10),
                                                       ElevatedButton(
                                                         onPressed: () async {
@@ -720,7 +713,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                       TextRegular(
                                                           text: 'End Time:',
                                                           fontSize: 14,
-                                                          color: Colors.grey),
+                                                          color: color),
                                                       const SizedBox(width: 10),
                                                       ElevatedButton(
                                                         onPressed: () async {
@@ -785,7 +778,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                       TextRegular(
                                                           text: 'Date:',
                                                           fontSize: 14,
-                                                          color: Colors.grey),
+                                                          color: color),
                                                       const SizedBox(width: 10),
                                                       ElevatedButton(
                                                         onPressed: () async {
@@ -799,13 +792,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                               context)
                                                                           .copyWith(
                                                                         colorScheme:
-                                                                            const ColorScheme.light(
+                                                                            ColorScheme.light(
                                                                           primary:
                                                                               primary,
                                                                           onPrimary:
                                                                               Colors.white,
                                                                           onSurface:
-                                                                              Colors.grey,
+                                                                              color,
                                                                         ),
                                                                       ),
                                                                       child:
@@ -971,9 +964,9 @@ class _HomeScreenState extends State<HomeScreen> {
               children: [
                 Container(
                   height: 30,
-                  decoration: const BoxDecoration(
-                    color: Colors.grey,
-                    borderRadius: BorderRadius.only(
+                  decoration: BoxDecoration(
+                    color: color,
+                    borderRadius: const BorderRadius.only(
                       topLeft: Radius.circular(20),
                       topRight: Radius.circular(20),
                     ),
@@ -1034,7 +1027,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   : Icons.check_box_outline_blank_rounded,
                               color: todos[index]['isCompleted']
                                   ? Colors.blue
-                                  : Colors.grey,
+                                  : color,
                             ),
                           ),
                           title: TextRegular(
@@ -1042,7 +1035,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             fontSize: 18,
                             color: todos[index]['isCompleted']
                                 ? Colors.blue
-                                : Colors.grey,
+                                : color,
                           ),
                         );
                       },
@@ -1089,14 +1082,14 @@ class _HomeScreenState extends State<HomeScreen> {
                           },
                         );
                       },
-                      icon: const Icon(
+                      icon: Icon(
                         Icons.add_circle_outline,
-                        color: Colors.grey,
+                        color: color,
                       ),
                       label: TextRegular(
                         text: 'Add task',
                         fontSize: 14,
-                        color: Colors.grey,
+                        color: color,
                       ),
                     ),
                   ),
@@ -1125,9 +1118,9 @@ class _HomeScreenState extends State<HomeScreen> {
               children: [
                 Container(
                   height: 30,
-                  decoration: const BoxDecoration(
-                    color: Colors.grey,
-                    borderRadius: BorderRadius.only(
+                  decoration: BoxDecoration(
+                    color: color,
+                    borderRadius: const BorderRadius.only(
                       topLeft: Radius.circular(20),
                       topRight: Radius.circular(20),
                     ),
@@ -1176,7 +1169,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               TextRegular(
                                 text: 'Completed To-dos',
                                 fontSize: 9,
-                                color: Colors.grey,
+                                color: color,
                               ),
                             ],
                           ),
@@ -1205,7 +1198,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               TextRegular(
                                 text: 'Uncompleted To-dos',
                                 fontSize: 9,
-                                color: Colors.grey,
+                                color: color,
                               ),
                             ],
                           ),
@@ -1283,9 +1276,9 @@ class _HomeScreenState extends State<HomeScreen> {
               children: [
                 Container(
                   height: 30,
-                  decoration: const BoxDecoration(
-                    color: Colors.grey,
-                    borderRadius: BorderRadius.only(
+                  decoration: BoxDecoration(
+                    color: color,
+                    borderRadius: const BorderRadius.only(
                       topLeft: Radius.circular(20),
                       topRight: Radius.circular(20),
                     ),
@@ -1368,8 +1361,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 const SizedBox(
                   height: 5,
                 ),
-                const Divider(
-                  color: Colors.grey,
+                Divider(
+                  color: color,
                   thickness: 0.5,
                 ),
                 Row(
@@ -1386,7 +1379,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: TextRegular(
                         text: 'Pomodoro',
                         fontSize: 12,
-                        color: isPomodoro ? Colors.blue : Colors.grey,
+                        color: isPomodoro ? Colors.blue : color,
                       ),
                     ),
                     const SizedBox(height: 30, child: VerticalDivider()),
@@ -1401,7 +1394,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: TextRegular(
                         text: 'Short Break',
                         fontSize: 12,
-                        color: isShortBreak ? Colors.blue : Colors.grey,
+                        color: isShortBreak ? Colors.blue : color,
                       ),
                     ),
                     const SizedBox(height: 30, child: VerticalDivider()),
@@ -1416,7 +1409,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: TextRegular(
                         text: 'Long Break',
                         fontSize: 12,
-                        color: isLongBreak ? Colors.blue : Colors.grey,
+                        color: isLongBreak ? Colors.blue : color,
                       ),
                     ),
                   ],
@@ -1440,9 +1433,9 @@ class _HomeScreenState extends State<HomeScreen> {
               children: [
                 Container(
                   height: 30,
-                  decoration: const BoxDecoration(
-                    color: Colors.grey,
-                    borderRadius: BorderRadius.only(
+                  decoration: BoxDecoration(
+                    color: color,
+                    borderRadius: const BorderRadius.only(
                       topLeft: Radius.circular(20),
                       topRight: Radius.circular(20),
                     ),
@@ -1487,7 +1480,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             height: 65,
                             width: 65,
                             decoration: BoxDecoration(
-                              color: Colors.grey,
+                              color: color,
                               borderRadius: BorderRadius.circular(10),
                             ),
                             child: const Icon(
@@ -1515,7 +1508,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               TextBold(
                                 text: 'No Author',
                                 fontSize: 13,
-                                color: Colors.grey,
+                                color: color,
                               ),
                             ],
                           ),
@@ -1552,8 +1545,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 const SizedBox(
                   height: 5,
                 ),
-                const Divider(
-                  color: Colors.grey,
+                Divider(
+                  color: color,
                   thickness: 0.5,
                 ),
                 const SizedBox(
@@ -1565,16 +1558,14 @@ class _HomeScreenState extends State<HomeScreen> {
                   decoration:
                       BoxDecoration(borderRadius: BorderRadius.circular(100)),
                   child: TextFormField(
-                    style: const TextStyle(
-                        color: Colors.grey,
-                        fontFamily: 'QRegular',
-                        fontSize: 12),
+                    style: TextStyle(
+                        color: color, fontFamily: 'QRegular', fontSize: 12),
                     decoration: InputDecoration(
                       enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(100)),
                       focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(100)),
-                      fillColor: Colors.grey[200],
+                      fillColor: color,
                       hintText: 'Enter a YouTube URL',
                       border: InputBorder.none,
                     ),
@@ -1602,9 +1593,9 @@ class _HomeScreenState extends State<HomeScreen> {
               children: [
                 Container(
                   height: 30,
-                  decoration: const BoxDecoration(
-                    color: Colors.grey,
-                    borderRadius: BorderRadius.only(
+                  decoration: BoxDecoration(
+                    color: color,
+                    borderRadius: const BorderRadius.only(
                       topLeft: Radius.circular(10),
                       topRight: Radius.circular(10),
                     ),
@@ -1724,10 +1715,10 @@ class _HomeScreenState extends State<HomeScreen> {
         builder: (context, child) {
           return Theme(
             data: Theme.of(context).copyWith(
-              colorScheme: const ColorScheme.light(
+              colorScheme: ColorScheme.light(
                 primary: primary,
                 onPrimary: Colors.white,
-                onSurface: Colors.grey,
+                onSurface: color,
               ),
             ),
             child: child!,
@@ -1753,10 +1744,10 @@ class _HomeScreenState extends State<HomeScreen> {
       builder: (context, child) {
         return Theme(
           data: Theme.of(context).copyWith(
-            colorScheme: const ColorScheme.light(
+            colorScheme: ColorScheme.light(
               primary: primary,
               onPrimary: Colors.white,
-              onSurface: Colors.grey,
+              onSurface: color,
             ),
           ),
           child: child!,
@@ -1780,10 +1771,10 @@ class _HomeScreenState extends State<HomeScreen> {
       builder: (context, child) {
         return Theme(
           data: Theme.of(context).copyWith(
-            colorScheme: const ColorScheme.light(
+            colorScheme: ColorScheme.light(
               primary: primary,
               onPrimary: Colors.white,
-              onSurface: Colors.grey,
+              onSurface: color,
             ),
           ),
           child: child!,
